@@ -11,13 +11,13 @@
         android:label="fragment_explore_page"
         tools:layout="@layout/fragment_explore_page" />
     <fragment
-        android:id="@+id/pagePage"
-        android:name="com.example.eventme.pagePage"
-        android:label="fragment_page_page"
-        tools:layout="@layout/fragment_page_page" />
-    <fragment
         android:id="@+id/mapPage"
         android:name="com.example.eventme.mapPage"
         android:label="fragment_map_page"
         tools:layout="@layout/fragment_map_page" />
+    <fragment
+        android:id="@+id/profilePage"
+        android:name="com.example.eventme.profilePage"
+        android:label="fragment_profile_page"
+        tools:layout="@layout/fragment_profile_page" />
 </navigation>
