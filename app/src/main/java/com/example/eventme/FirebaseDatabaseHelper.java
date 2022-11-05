@@ -40,6 +40,7 @@ public class FirebaseDatabaseHelper {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 events.clear();
                 List<String> keys = new ArrayList<>();
+                //possible issue with datasnap, we might need to fix later
                 for (DataSnapshot keyNode : dataSnapshot.getChildren())
                 {
                     keys.add(keyNode.getKey());

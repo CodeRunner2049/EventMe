@@ -1,52 +1,140 @@
 package com.example.eventme;
 
+import java.util.HashMap;
+import java.util.Map;
 
 public class EventBox {
 
-    private String title;
-    private String author;
-    private String isbn;
-    private String category_name;
+    public static class Coordinates {
 
-    public EventBox() {
+        private Double latitude;
+        private Double longitude;
+        public Double getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(Double latitude) {
+            this.latitude = latitude;
+        }
+
+        public Double getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(Double longitude) {
+            this.longitude = longitude;
+        }
+
+
     }
 
-    public EventBox(String title, String author, String isbn, String category_name) {
-        this.title = title;
-        this.author = author;
-        this.isbn = isbn;
-        this.category_name = category_name;
+
+        private String event_id;
+        private String name;
+        private Integer distance;
+        private Integer cost;
+        private String eventType;
+        private String sponsor;
+        private String eventDescription;
+        private Integer parking;
+        private Integer numberRegistration;
+        private String date;
+        private String image_url;
+        private Coordinates coordinates;
+
+    public String getEvent_id() {
+        return event_id;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public void setEvent_id(String event_id) {
+        this.event_id = event_id;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
+    public String getName() {
+            return name;
+        }
 
-    public String getAuthor() {
-        return author;
-    }
+        public void setName(String name) {
+            this.name = name;
+        }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+        public Integer getDistance() {
+            return distance;
+        }
 
-    public String getTitle() {
-        return title;
-    }
+        public void setDistance(Integer distance) {
+            this.distance = distance;
+        }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+        public Integer getCost() {
+            return cost;
+        }
 
-    public String getCategory_name() {
-        return category_name;
-    }
+        public void setCost(Integer cost) {
+            this.cost = cost;
+        }
 
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+        public String getEventType() {
+            return eventType;
+        }
+
+        public void setEventType(String eventType) {
+            this.eventType = eventType;
+        }
+
+        public String getSponsor() {
+            return sponsor;
+        }
+
+        public void setSponsor(String sponsor) {
+            this.sponsor = sponsor;
+        }
+
+        public String getEventDescription() {
+            return eventDescription;
+        }
+
+        public void setEventDescription(String eventDescription) {
+            this.eventDescription = eventDescription;
+        }
+
+        public Integer getParking() {
+            return parking;
+        }
+
+        public void setParking(Integer parking) {
+            this.parking = parking;
+        }
+
+        public Integer getNumberRegistration() {
+            return numberRegistration;
+        }
+
+        public void setNumberRegistration(Integer numberRegistration) {
+            this.numberRegistration = numberRegistration;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public Coordinates getCoordinates() {
+            return coordinates;
+        }
+
+        public void setCoordinates(Coordinates coordinates) {
+            this.coordinates = coordinates;
+        }
+
+        private String getImage_url(){
+            return image_url;
+        }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 }
