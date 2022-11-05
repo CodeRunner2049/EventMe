@@ -20,7 +20,7 @@ public class FirebaseDatabaseHelper {
     private DatabaseReference mReferenceEvents;
     private List<EventBox> events = new ArrayList<>();
 
-    //poop
+    // data
     public interface DataStatus
     {
         void DataIsLoaded(List<EventBox> events, List<String> keys);
