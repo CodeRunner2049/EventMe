@@ -20,4 +20,10 @@
         android:name="com.example.eventme.profilePage"
         android:label="fragment_profile_page"
         tools:layout="@layout/fragment_profile_page" />
+
+    <fragment
+        android:id="@+id/registerPage"
+        android:name="com.example.eventme.registerPage"
+        android:label="fragment_register_page"
+        tools:layout="@layout/fragment_register_page" />
 </navigation>

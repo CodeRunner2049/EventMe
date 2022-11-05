@@ -2,20 +2,14 @@ package com.example.eventme;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
-
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -31,7 +25,7 @@ public class profilePage extends Fragment {
 
     // creating variables for our edit text and buttons.
     private EditText userNameEdt, passwordEdt;
-    private Button loginBtn;
+    private Button loginBtn, registerBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +42,7 @@ public class profilePage extends Fragment {
         userNameEdt = rootview.findViewById(R.id.idEdtUserName);
         passwordEdt = rootview.findViewById(R.id.idEdtPassword);
         loginBtn = rootview.findViewById(R.id.idBtnLogin);
+        registerBtn = rootview.findViewById(R.id.idBtnRegister);
 
         // adding on click listener for our button.
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +62,16 @@ public class profilePage extends Fragment {
                 loginUser(userName, password);
             }
         });
+
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(getActivity().getApplicationContext(), registerPage.class);
+                startActivity(i);
+            }
+        });
+
         return rootview;
     }
 
