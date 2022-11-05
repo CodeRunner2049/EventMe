@@ -1,6 +1,9 @@
 package com.example.eventme;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -11,20 +14,33 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.example.eventme.databinding.ActivityMainBinding;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+    //james  start
+    private EditText inPutID,inputName;
+    private Button btnRead,btnSave;
+
+    private TextView textViewID,textViewName;
+
+
+    private DatabaseReference UserRef;
+    //james end
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         //Initialize the bottom navigation view
         //create bottom navigation view object
-        BottomNavigationView bottomNavigationView =  findViewById(R.id.bottom_navigatin_view);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigatin_view);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -37,6 +53,26 @@ public class MainActivity extends AppCompatActivity {
 
 //        val navController = findNavController(R.id.nav_fragment);
 //        bottomNavigationView.setupWithNavController(navController);
+
+//
+//        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        inPutID = findViewById(R.id.inputID);
+        inputName = findViewById(R.id.inputName);
+
+
+        btnRead = findViewById(R.id.btnRead);
+        btnSave = findViewById(R.id.btnSave);
+
+
+        textViewID = findViewById(R.id.textViewID);
+        textViewName = findViewById(R.id.textViewName);
+
+        UserRef = FirebaseDatabase.getInstance().getReference().child("User");
+
+
     }
 }
 
