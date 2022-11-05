@@ -8,18 +8,30 @@
 
     <!--text view for heading-->A
 
-    <Button
-        android:id="@+id/idBtnLogin"
+    <EditText
+        android:id="@+id/idEdtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idEdtPassword"
+        android:layout_below="@id/idEdtFirstName"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:text="Login"
-        android:textAllCaps="false" />
+        android:hint="Enter Email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/idEdtFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idTVHeader"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="10dp"
+        android:hint="Enter Name"
+        android:inputType="textEmailAddress" />
 
     <!--edit text for user name-->
+
     <TextView
         android:id="@+id/idTVHeader"
         android:layout_width="match_parent"
@@ -27,23 +39,24 @@
         android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
         android:padding="5dp"
-        android:text="EventMe"
+        android:text="Register New User"
         android:textAlignment="center"
         android:textColor="@color/purple_700"
-        android:textSize="18sp" />
+        android:textSize="24sp" />
+
+    <!--edit text for user password-->
 
     <EditText
         android:id="@+id/idEdtUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idTVHeader"
+        android:layout_below="@id/idEdtEmail"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:hint="Enter UserName"
         android:inputType="textEmailAddress" />
 
-    <!--edit text for user password-->
     <EditText
         android:id="@+id/idEdtPassword"
         android:layout_width="match_parent"
@@ -62,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/idEdtPassword"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="102dp"
+        android:layout_marginTop="43dp"
         android:layout_marginEnd="10dp"
         android:text="Register Account"
         android:textAllCaps="false" />
