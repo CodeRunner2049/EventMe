@@ -110,4 +110,12 @@ public class FirebaseDatabaseHelper {
                 });
         return eventID;
     }
+
+    public List<EventBox> getEvents() {
+        return events;
+    }
+
+    public List<UserBox> getUsers() {
+        return users;
+    }
 }
