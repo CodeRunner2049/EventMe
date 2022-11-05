@@ -29,6 +29,7 @@ public class EventBox {
     }
 
 
+        private String event_id;
         private String name;
         private Integer distance;
         private Integer cost;
@@ -38,9 +39,18 @@ public class EventBox {
         private Integer parking;
         private Integer numberRegistration;
         private String date;
+        private String image_url;
         private Coordinates coordinates;
 
-        public String getName() {
+    public String getEvent_id() {
+        return event_id;
+    }
+
+    public void setEvent_id(String event_id) {
+        this.event_id = event_id;
+    }
+
+    public String getName() {
             return name;
         }
 
@@ -120,5 +130,11 @@ public class EventBox {
             this.coordinates = coordinates;
         }
 
+        private String getImage_url(){
+            return image_url;
+        }
 
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
 }
