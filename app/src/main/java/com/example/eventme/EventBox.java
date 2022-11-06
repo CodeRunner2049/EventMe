@@ -5,136 +5,131 @@ import java.util.Map;
 
 public class EventBox {
 
-    public static class Coordinates {
+    public EventBox() {}
 
-        private Double latitude;
-        private Double longitude;
-        public Double getLatitude() {
-            return latitude;
-        }
-
-        public void setLatitude(Double latitude) {
-            this.latitude = latitude;
-        }
-
-        public Double getLongitude() {
-            return longitude;
-        }
-
-        public void setLongitude(Double longitude) {
-            this.longitude = longitude;
-        }
-
-
+    public EventBox(String name, String ID, Integer cost, String event_Type, String sponsor, String event_Description, Integer parking, Integer number_Registration, String date, Double latitude, Double longitude, String image_url) {
+        Name = name;
+        this.ID = ID;
+        Cost = cost;
+        Event_Type = event_Type;
+        Sponsor = sponsor;
+        Event_Description = event_Description;
+        Parking = parking;
+        Number_Registration = number_Registration;
+        Date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.image_url = image_url;
     }
 
-
-        private String event_id;
-        private String name;
-        private Integer distance;
-        private Integer cost;
-        private String eventType;
-        private String sponsor;
-        private String eventDescription;
-        private Integer parking;
-        private Integer numberRegistration;
-        private String date;
-        private String image_url;
-        private Coordinates coordinates;
-
-    public String getEvent_id() {
-        return event_id;
-    }
-
-    public void setEvent_id(String event_id) {
-        this.event_id = event_id;
-    }
+    private String Name;
+    private String ID;
+    private Integer Cost;
+    private String Event_Type;
+    private String Sponsor;
+    private String Event_Description;
+    private Integer Parking;
+    private Integer Number_Registration;
+    private String Date;
+    private Double latitude;
+    private Double longitude;
+    private String image_url;
 
     public String getName() {
-            return name;
-        }
+        return Name;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public void setName(String Name) {
+        this.Name = Name;
+    }
 
-        public Integer getDistance() {
-            return distance;
-        }
+    public String getId() {
+        return ID;
+    }
 
-        public void setDistance(Integer distance) {
-            this.distance = distance;
-        }
+    public void setId(String ID) {
+        this.ID = ID;
+    }
 
-        public Integer getCost() {
-            return cost;
-        }
+    public Integer getCost() {
+        return Cost;
+    }
 
-        public void setCost(Integer cost) {
-            this.cost = cost;
-        }
+    public void setCost(Integer Cost) {
+        this.Cost = Cost;
+    }
 
-        public String getEventType() {
-            return eventType;
-        }
+    public String getEvent_Type() {
+        return Event_Type;
+    }
 
-        public void setEventType(String eventType) {
-            this.eventType = eventType;
-        }
+    public void setEvent_Type(String Event_Type) {
+        this.Event_Type = Event_Type;
+    }
 
-        public String getSponsor() {
-            return sponsor;
-        }
+    public String getSponsor() {
+        return Sponsor;
+    }
 
-        public void setSponsor(String sponsor) {
-            this.sponsor = sponsor;
-        }
+    public void setSponsor(String Sponsor) {
+        this.Sponsor = Sponsor;
+    }
 
-        public String getEventDescription() {
-            return eventDescription;
-        }
+    public String getEvent_Description() {
+        return Event_Description;
+    }
 
-        public void setEventDescription(String eventDescription) {
-            this.eventDescription = eventDescription;
-        }
+    public void setEvent_Description(String Event_Description) {
+        this.Event_Description = Event_Description;
+    }
 
-        public Integer getParking() {
-            return parking;
-        }
+    public Integer getParking() {
+        return Parking;
+    }
 
-        public void setParking(Integer parking) {
-            this.parking = parking;
-        }
+    public void setParking(Integer Parking) {
+        this.Parking = Parking;
+    }
 
-        public Integer getNumberRegistration() {
-            return numberRegistration;
-        }
+    public Integer getNumber_Registration() {
+        return Number_Registration;
+    }
 
-        public void setNumberRegistration(Integer numberRegistration) {
-            this.numberRegistration = numberRegistration;
-        }
+    public void setNumber_Registration(Integer Number_Registration) {
+        this.Number_Registration = Number_Registration;
+    }
 
-        public String getDate() {
-            return date;
-        }
+    public String getDate() {
+        return Date;
+    }
 
-        public void setDate(String date) {
-            this.date = date;
-        }
+    public void setDate(String Date) {
+        this.Date = Date;
+    }
 
-        public Coordinates getCoordinates() {
-            return coordinates;
-        }
+    public Double getLatitude() {
+        return latitude;
+    }
 
-        public void setCoordinates(Coordinates coordinates) {
-            this.coordinates = coordinates;
-        }
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
 
-        private String getImage_url(){
-            return image_url;
-        }
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
+
+
 }

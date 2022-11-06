@@ -8,11 +8,14 @@
     tools:context=".ExplorePage">
 
         <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            tools:ignore="MissingConstraints" />
+            android:id="@+id/spinner"
+            android:layout_width="162dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="68dp"
+            android:textColor="#FF0000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

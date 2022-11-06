@@ -1,17 +1,22 @@
 package com.example.eventme;
 
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +44,7 @@ public class ExplorePage extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Spinner dropdown;
 
     public ExplorePage() {
         // Required empty public constructor
@@ -84,16 +90,25 @@ public class ExplorePage extends Fragment {
 
 
     }
+    String[] courses = { "C", "Data structures",
+            "Interview prep", "Algorithms",
+            "DSA with java", "OS" };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootview = inflater.inflate(R.layout.fragment_explore_page, container, false);
+        //View rootview = inflater.inflate(R.layout.fragment_profile_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_explore_page, container, false);
+        Spinner spinner = view.findViewById(R.id.spinner);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, courses);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
 
 
         return inflater.inflate(R.layout.fragment_explore_page, container, false);
     }
+
 
 
 
