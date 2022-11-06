@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,9 +17,21 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class mapPage extends Fragment {
 
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    private String mParam1;
+    private String mParam2;
+
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
+
+        //get event locations on the map
+
 
         /**
          * Manipulates the map once available.
@@ -54,4 +67,41 @@ public class mapPage extends Fragment {
             mapFragment.getMapAsync(callback);
         }
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+
+
+        FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
+        fb.readEvents(new FirebaseDatabaseHelper.DataStatus() {
+            @Override
+            public void DataIsLoaded(List<EventBox> events, List<String> keys) {
+                Toast.makeText(getActivity().getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void DataIsInserted() {}
+
+            @Override
+            public void DataIsUpdated() {}
+
+            @Override
+            public void DataIsDeleted() {}
+        });
+
+        List<EventBox> storageOfEvents = (ArrayList<EventBox>) fb.getEvents();
+
+
+
+
+
+    }
+
+
+
+
 }
