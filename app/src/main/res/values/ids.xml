@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="textViewName" type="id" />
+    <item name="textViewID" type="id" />
+    <item name="btnSave" type="id" />
+    <item name="btnRead" type="id" />
+    <item name="inputName" type="id" />
+    <item name="inputID" type="id" />
+</resources>

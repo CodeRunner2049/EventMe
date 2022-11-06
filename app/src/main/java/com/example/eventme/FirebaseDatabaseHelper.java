@@ -23,6 +23,7 @@ public class FirebaseDatabaseHelper {
     private List<EventBox> events = new ArrayList<>();
     private List<UserBox> users = new ArrayList<>();
 
+    // data 3
     public interface DataStatus
     {
         void DataIsLoaded(List<EventBox> events, List<String> keys);
@@ -108,5 +109,13 @@ public class FirebaseDatabaseHelper {
                     }
                 });
         return eventID;
+    }
+
+    public List<EventBox> getEvents() {
+        return events;
+    }
+
+    public List<UserBox> getUsers() {
+        return users;
     }
 }
