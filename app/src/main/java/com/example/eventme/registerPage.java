@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import android.content.Intent;
@@ -97,7 +98,7 @@ public class registerPage extends Fragment {
             @Override
             public void DataIsDeleted() {}
         });
-        Intent i = new Intent(getActivity().getApplicationContext(), ExplorePage.class);
+        Intent i = new Intent(getActivity().getApplicationContext(), ExpandableListView.class);
         i.putExtra("username", userName);
         startActivity(i);
     }

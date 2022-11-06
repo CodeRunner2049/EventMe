@@ -3,6 +3,7 @@ package com.example.eventme;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.eventme.databinding.ActivityMainBinding;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
- //hello
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+//hello
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -46,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.explorePage, R.id.mapPage, R.id.profilePage)
+                R.id.expandableListView, R.id.mapPage, R.id.profilePage)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -58,6 +64,28 @@ public class MainActivity extends AppCompatActivity {
 //
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
+
+        ExpandableListView expandableListView = findViewById(R.id.expandableListView);
+        HashMap<String, List<String>> item = new HashMap<>();
+
+        ArrayList<String> Groups = new ArrayList<>();
+        Groups.add("A");
+        Groups.add("B");
+        Groups.add("C");
+        Groups.add("D");
+
+        item.put("Search", Groups);
+
+//        ArrayList<String> windowsGroups = new ArrayList<>();
+//        windowsGroups.add("Windows");
+//        windowsGroups.add("Windows NT");
+//        windowsGroups.add("Windows RT");
+//        windowsGroups.add("Windows Mobile");
+//
+//        item.put("Windows", windowsGroups);
+
+        MyExpandableListAdapter adapter = new MyExpandableListAdapter(item);
+        expandableListView.setAdapter(adapter);
 
 
         inPutID = findViewById(R.id.inputID);

@@ -82,7 +82,7 @@ public class LoginPage extends Fragment {
             // if the user is not null then we will display a toast message
             // with user login and passing that user to new activity.
             Toast.makeText(getActivity().getApplicationContext(), "Register Successful ", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getActivity().getApplicationContext(), ExplorePage.class);
+            Intent i = new Intent(getActivity().getApplicationContext(), MyExpandableListAdapter.class);
             i.putExtra("username", userName);
             startActivity(i);
         } else {
