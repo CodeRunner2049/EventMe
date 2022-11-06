@@ -28,6 +28,10 @@ public class mapPage extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private GoogleMap googleMap;
+    private MarkerOptions options = new MarkerOptions();
+    private ArrayList<LatLng> latlngs = new ArrayList<>();
+
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         //get event locations on the map
@@ -55,33 +59,13 @@ public class mapPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_map_page, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
-        }
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
 
         FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
         fb.readEvents(new FirebaseDatabaseHelper.DataStatus() {
             @Override
             public void DataIsLoaded(List<EventBox> events, List<String> keys) {
                 Toast.makeText(getActivity().getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
+
             }
             @Override
             public void DataIsInserted() {}
@@ -93,13 +77,55 @@ public class mapPage extends Fragment {
             public void DataIsDeleted() {}
         });
 
+
         List<EventBox> storageOfEvents = (ArrayList<EventBox>) fb.getEvents();
+
+        for(int i = 0 ; i < storageOfEvents.size() ; i++)
+        {
+            latlngs.add(new LatLng(storageOfEvents.get(i).getCoordinates().getLatitude(), storageOfEvents.get(i).getCoordinates().getLongitude()));
+        }
+
+        for (LatLng point : latlngs) {
+            options.position(point);
+            options.title("someTitle");
+            options.snippet("someDesc");
+            googleMap.addMarker(options);
+        }
+
+
+        return inflater.inflate(R.layout.fragment_map_page, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(callback);
+        }
+
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+
 
 
 
 
 
     }
+
+
+
+
+
+
 
 
 
