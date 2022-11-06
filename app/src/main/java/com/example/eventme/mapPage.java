@@ -66,6 +66,17 @@ public class mapPage extends Fragment {
             public void DataIsLoaded(List<EventBox> events, List<String> keys) {
                 Toast.makeText(getActivity().getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
 
+                for(int i = 0 ; i < events.size() ; i++)
+                {
+                    latlngs.add(new LatLng(events.get(i).getLatitude(), events.get(i).getLongitude()));
+                }
+
+                for (LatLng point : latlngs) {
+                    options.position(point);
+                    options.title("someTitle");
+                    options.snippet("someDesc");
+                    googleMap.addMarker(options);
+                }
             }
             @Override
             public void DataIsInserted() {}
@@ -76,21 +87,6 @@ public class mapPage extends Fragment {
             @Override
             public void DataIsDeleted() {}
         });
-
-
-        List<EventBox> storageOfEvents = (ArrayList<EventBox>) fb.getEvents();
-
-        for(int i = 0 ; i < storageOfEvents.size() ; i++)
-        {
-            latlngs.add(new LatLng(storageOfEvents.get(i).getCoordinates().getLatitude(), storageOfEvents.get(i).getCoordinates().getLongitude()));
-        }
-
-        for (LatLng point : latlngs) {
-            options.position(point);
-            options.title("someTitle");
-            options.snippet("someDesc");
-            googleMap.addMarker(options);
-        }
 
 
         return inflater.inflate(R.layout.fragment_map_page, container, false);
@@ -112,22 +108,7 @@ public class mapPage extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
 
 
 }

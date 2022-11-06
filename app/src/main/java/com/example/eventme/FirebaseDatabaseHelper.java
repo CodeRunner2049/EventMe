@@ -34,7 +34,7 @@ public class FirebaseDatabaseHelper {
 
     public FirebaseDatabaseHelper() {
         mDatabase = FirebaseDatabase.getInstance();
-        mReferenceEvents = mDatabase.getReference("events");
+        mReferenceEvents = mDatabase.getReference("Events");
         mReferenceUsers = mDatabase.getReference("User");
     }
 
