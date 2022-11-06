@@ -68,15 +68,16 @@ public class mapPage extends Fragment {
 
                 for(int i = 0 ; i < events.size() ; i++)
                 {
-                    latlngs.add(new LatLng(events.get(i).getCoordinates().getLatitude(), events.get(i).getCoordinates().getLongitude()));
+                    latlngs.add(new LatLng(events.get(i).getLatitude(), events.get(i).getLongitude()));
                 }
 
                 for (LatLng point : latlngs) {
                     options.position(point);
-                    options.title("someTitle");
-                    options.snippet("someDesc");
+//                    options.title("someTitle");
+//                    options.snippet("someDesc");
                     googleMap.addMarker(options);
                 }
+
             }
             @Override
             public void DataIsInserted() {}
@@ -87,9 +88,6 @@ public class mapPage extends Fragment {
             @Override
             public void DataIsDeleted() {}
         });
-
-
-
 
 
         return inflater.inflate(R.layout.fragment_map_page, container, false);
