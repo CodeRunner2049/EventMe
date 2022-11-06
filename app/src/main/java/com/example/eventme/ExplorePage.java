@@ -100,7 +100,7 @@ public class ExplorePage extends Fragment {
         // Inflate the layout for this fragment
         //View rootview = inflater.inflate(R.layout.fragment_profile_page, container, false);
         View view = inflater.inflate(R.layout.fragment_explore_page, container, false);
-        Spinner spinner = view.findViewById(R.id.spinner);
+        Spinner spinner = view.findViewById(R.id.spinner1);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, courses);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);

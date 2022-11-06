@@ -48,6 +48,36 @@ public class mapPage extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+
+            FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
+            fb.readEvents(new FirebaseDatabaseHelper.DataStatus() {
+                @Override
+                public void DataIsLoaded(List<EventBox> events, List<String> keys) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
+
+                    for(int i = 0 ; i < events.size() ; i++)
+                    {
+                        latlngs.add(new LatLng(events.get(i).getLatitude(), events.get(i).getLongitude()));
+//                    LatLng sydney = new LatLng(events.get(i).getLatitude(), events.get(i).getLongitude());
+//                    googleMap.addMarker(new MarkerOptions().position(sydney).title(" "));
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                    }
+//
+                    for (LatLng point : latlngs) {
+                        googleMap.addMarker(new MarkerOptions().position(point).title("Marker in Sydney"));
+                    }
+
+                }
+                @Override
+                public void DataIsInserted() {}
+
+                @Override
+                public void DataIsUpdated() {}
+
+                @Override
+                public void DataIsDeleted() {}
+            });
+
             LatLng sydney = new LatLng(-34, 151);
             googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
@@ -59,35 +89,6 @@ public class mapPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-        FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
-        fb.readEvents(new FirebaseDatabaseHelper.DataStatus() {
-            @Override
-            public void DataIsLoaded(List<EventBox> events, List<String> keys) {
-                Toast.makeText(getActivity().getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
-
-                for(int i = 0 ; i < events.size() ; i++)
-                {
-                    latlngs.add(new LatLng(events.get(i).getLatitude(), events.get(i).getLongitude()));
-                }
-
-                for (LatLng point : latlngs) {
-                    options.position(point);
-//                    options.title("someTitle");
-//                    options.snippet("someDesc");
-                    googleMap.addMarker(options);
-                }
-
-            }
-            @Override
-            public void DataIsInserted() {}
-
-            @Override
-            public void DataIsUpdated() {}
-
-            @Override
-            public void DataIsDeleted() {}
-        });
 
 
         return inflater.inflate(R.layout.fragment_map_page, container, false);
