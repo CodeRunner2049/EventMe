@@ -3,14 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/drawable/map.xml" value="0.214" />
-        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/drawable/profile.xml" value="0.214" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/activity_main.xml" value="0.19947916666666668" />
-        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_explore_page.xml" value="0.20677083333333332" />
-        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_map_page.xml" value="0.20677083333333332" />
-        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_profile_page.xml" value="0.2977777777777778" />
-        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_register_page.xml" value="0.20572916666666666" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/menu/bottom_nav.xml" value="0.149609375" />
+        <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.12771739130434784" />
+        <entry key="app/src/main/res/layout/fragment_explore_page.xml" value="0.2304087320963542" />
+        <entry key="app/src/main/res/layout/fragment_profile_page.xml" value="0.19479166666666667" />
+        <entry key="app/src/main/res/layout/listview_item_explore.xml" value="0.17135416666666667" />
+        <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.19479166666666667" />
       </map>
     </option>
   </component>
