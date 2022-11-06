@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/drawable/avatar.xml" value="0.1725" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/drawable/explore.xml" value="0.1725" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/drawable/map.xml" value="0.1725" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/activity_main.xml" value="0.19947916666666668" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_profile_page.xml" value="0.2222222222222222" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_register_page.xml" value="0.1308876811594203" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/menu/bottom_nav.xml" value="0.149609375" />
         <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.12771739130434784" />
         <entry key="app/src/main/res/layout/fragment_explore_page.xml" value="0.2304087320963542" />
