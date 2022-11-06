@@ -58,11 +58,11 @@ public class mapPage extends Fragment {
                     for(int i = 0 ; i < events.size() ; i++)
                     {
                         latlngs.add(new LatLng(events.get(i).getLatitude(), events.get(i).getLongitude()));
-    //                    LatLng sydney = new LatLng(events.get(i).getLatitude(), events.get(i).getLongitude());
-    //                    googleMap.addMarker(new MarkerOptions().position(sydney).title(" "));
-    //                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//                    LatLng sydney = new LatLng(events.get(i).getLatitude(), events.get(i).getLongitude());
+//                    googleMap.addMarker(new MarkerOptions().position(sydney).title(" "));
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
                     }
-    //
+//
                     for (LatLng point : latlngs) {
                         googleMap.addMarker(new MarkerOptions().position(point).title("Marker in Sydney"));
                     }
@@ -81,8 +81,6 @@ public class mapPage extends Fragment {
             LatLng sydney = new LatLng(-34, 151);
             googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
         }
     };
 
