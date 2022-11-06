@@ -13,7 +13,7 @@ public class UserBox {
     }
 
     public String getUserId(){
-        return userId;
+        return key;
     }
 
     public String getUsername() {
@@ -60,8 +60,8 @@ public class UserBox {
         this.registeredEvents = registeredEvents;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserId(String key) {
+        this.key = key;
     }
 
     public void setUsername(String username) {
@@ -76,7 +76,6 @@ public class UserBox {
         this.email = email;
     }
 
-    private String userId;
     private String username;
     private String password;
     private String email;
@@ -84,4 +83,6 @@ public class UserBox {
     private Date birthday;
     private String image_url;
     private ArrayList<EventBox> registeredEvents;
+
+    private String key;
 }

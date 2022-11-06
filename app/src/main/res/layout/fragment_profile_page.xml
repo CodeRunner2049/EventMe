@@ -19,20 +19,20 @@
         android:textAlignment="center"
         android:textColor="@color/purple_700"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/uploadPicture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/uploadPicture"
         android:layout_width="183dp"
         android:layout_height="192dp"
         android:layout_marginStart="112dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="76dp"
         android:src="@drawable/avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.017"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +41,7 @@
         android:layout_height="176dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="34dp"
-        tools:layout_editor_absoluteY="367dp">
+        tools:layout_editor_absoluteY="289dp">
 
         <TextView
             android:id="@+id/nameText"
@@ -70,12 +70,22 @@
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/BirthdayEditText"
+            android:id="@+id/editTextDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="date" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/imageUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="485dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

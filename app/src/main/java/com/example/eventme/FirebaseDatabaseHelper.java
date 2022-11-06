@@ -3,6 +3,8 @@
 
 package com.example.eventme;
 
+import android.provider.ContactsContract;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -111,6 +113,30 @@ public class FirebaseDatabaseHelper {
                 });
         return eventID;
     }
+
+    public void updateUser(String key, UserBox user, final DataStatus dataStatus)
+    {
+        mReferenceUsers.child(key).setValue(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        dataStatus.DataIsUpdated();
+                    }
+                });
+    }
+
+    public void deleteUser(String key, final DataStatus dataStatus)
+    {
+        mReferenceUsers.child(key).setValue(null)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        dataStatus.DataIsDeleted();
+                    }
+                });
+    }
+
+
 
     public List<EventBox> getEvents() {
         return events;
