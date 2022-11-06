@@ -7,7 +7,6 @@ public class EventBox {
 
     public EventBox() {}
 
-
     public EventBox(String name, String ID, Integer cost, String event_Type, String sponsor, String event_Description, Integer parking, Integer number_Registration, String date, Double latitude, Double longitude, String image_url) {
         Name = name;
         this.ID = ID;

@@ -73,10 +73,11 @@ public class mapPage extends Fragment {
 
                 for (LatLng point : latlngs) {
                     options.position(point);
-                    options.title("someTitle");
-                    options.snippet("someDesc");
+//                    options.title("someTitle");
+//                    options.snippet("someDesc");
                     googleMap.addMarker(options);
                 }
+
             }
             @Override
             public void DataIsInserted() {}
@@ -108,7 +109,22 @@ public class mapPage extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
 
 
 }
