@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ public class mapPage extends Fragment {
     private GoogleMap googleMap;
     private MarkerOptions options = new MarkerOptions();
     private ArrayList<LatLng> latlngs = new ArrayList<>();
+    private ArrayList<Marker> markers = new ArrayList<>();
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -55,28 +59,45 @@ public class mapPage extends Fragment {
                 public void DataIsLoaded(List<EventBox> events, List<String> keys) {
                     Toast.makeText(getActivity().getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
 
-                    for (EventBox event : events)
-                    {
+                    for (EventBox event : events) {
                         LatLng latlng = new LatLng(event.getLatitude(), event.getLongitude());
-                        googleMap.addMarker(new MarkerOptions().position(latlng).title(event.getName()));
+                        Marker marker = googleMap.addMarker(new MarkerOptions().position(latlng).title(event.getName()));
                         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
+                        markers.add(marker);
                     }
 
 
                 }
-                @Override
-                public void DataIsInserted() {}
 
                 @Override
-                public void DataIsUpdated() {}
+                public void DataIsInserted() {
+                }
 
                 @Override
-                public void DataIsDeleted() {}
+                public void DataIsUpdated() {
+                }
+
+                @Override
+                public void DataIsDeleted() {
+                }
             });
 
             LatLng sydney = new LatLng(-34, 151);
             googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(@NonNull Marker marker) {
+
+                    String markertitle = marker.getTitle();
+                    Intent i = new Intent(getContext(), DetailsActivity.class);
+                    i.putExtra("title", markertitle);
+                    startActivity(i);
+
+                    return false;
+                }
+            });
         }
     };
 
@@ -107,21 +128,6 @@ public class mapPage extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
 
 }
