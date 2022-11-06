@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link profilePage#newInstance} factory method to
+ * Use the {@link loginPage#newInstance} factory method to
  * create an instance of this fragment.
  */
 
@@ -37,7 +37,7 @@ public class LoginPage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootview = inflater.inflate(R.layout.fragment_profile_page, container, false);
+        View rootview = inflater.inflate(R.layout.fragment_login_page, container, false);
 
         // initializing our edit text  and buttons.
         userNameEdt = rootview.findViewById(R.id.idEdtUserName);
@@ -63,12 +63,12 @@ public class LoginPage extends Fragment {
             }
         });
 
-        registerBtn = rootview.findViewById(R.id.action_profilePage_to_registerPage);
+        registerBtn = rootview.findViewById(R.id.action_loginPage_to_registerPage);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Navigation.findNavController(rootview).navigate(R.id.action_profilePage_to_registerPage);
+                Navigation.findNavController(rootview).navigate(R.id.action_loginPage_to_registerPage);
             }
         });
 

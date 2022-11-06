@@ -5,6 +5,21 @@ import java.util.Map;
 
 public class EventBox {
 
+    public EventBox(String event_id, String name, Integer distance, Integer cost, String eventType, String sponsor, String eventDescription, Integer parking, Integer numberRegistration, String date, String image_url, Coordinates coordinates) {
+        this.event_id = event_id;
+        this.name = name;
+        this.distance = distance;
+        this.cost = cost;
+        this.eventType = eventType;
+        this.sponsor = sponsor;
+        this.eventDescription = eventDescription;
+        this.parking = parking;
+        this.numberRegistration = numberRegistration;
+        this.date = date;
+        this.image_url = image_url;
+        this.coordinates = coordinates;
+    }
+
     public static class Coordinates {
 
         private Double latitude;
