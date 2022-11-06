@@ -22,7 +22,7 @@ import android.widget.Toast;
 import android.content.Intent;
 import android.text.TextUtils;
 
-public class profilePage extends Fragment {
+public class LoginPage extends Fragment {
 
     // creating variables for our edit text and buttons.
     private EditText userNameEdt, passwordEdt;

@@ -5,7 +5,9 @@ import java.util.Date;
 
 public class UserBox {
 
-    public UserBox(String username, String password){
+    public UserBox(String name, String email, String username, String password){
+        this.name = name;
+        this.email = email;
         this.username = username;
         this.password = password;
     }
@@ -66,9 +68,18 @@ public class UserBox {
         this.username = username;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     private String userId;
     private String username;
     private String password;
+    private String email;
     private String name;
     private Date birthday;
     private String image_url;
