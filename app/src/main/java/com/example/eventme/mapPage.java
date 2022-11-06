@@ -55,17 +55,13 @@ public class mapPage extends Fragment {
                 public void DataIsLoaded(List<EventBox> events, List<String> keys) {
                     Toast.makeText(getActivity().getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
 
-                    for(int i = 0 ; i < events.size() ; i++)
+                    for (EventBox event : events)
                     {
-                        latlngs.add(new LatLng(events.get(i).getLatitude(), events.get(i).getLongitude()));
-//                    LatLng sydney = new LatLng(events.get(i).getLatitude(), events.get(i).getLongitude());
-//                    googleMap.addMarker(new MarkerOptions().position(sydney).title(" "));
-//                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                        LatLng latlng = new LatLng(event.getLatitude(), event.getLongitude());
+                        googleMap.addMarker(new MarkerOptions().position(latlng).title(event.getName()));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
                     }
-//
-                    for (LatLng point : latlngs) {
-                        googleMap.addMarker(new MarkerOptions().position(point).title("Marker in Sydney"));
-                    }
+
 
                 }
                 @Override
