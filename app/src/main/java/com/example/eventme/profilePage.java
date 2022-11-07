@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -47,7 +50,7 @@ public class profilePage extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private ImageView avatar;
     private Button profileUpload, logout;
-    private EditText nameEditText;
+    private EditText nameEditText, birthday;
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceUsers;
@@ -79,9 +82,69 @@ public class profilePage extends Fragment {
         currentUser = mAuth.getCurrentUser();
         avatar = rootview.findViewById(R.id.uploadPicture);
         nameEditText = rootview.findViewById(R.id.userNameEditText);
-//        birthdayEditText = rootview.findViewById(R.id.BirthdayEditText);
+        birthday = rootview.findViewById(R.id.birthdayEditText);
         profileUpload = rootview.findViewById(R.id.imageUpload);
         logout = rootview.findViewById(R.id.logout);
+        birthday.setText("DD/MM/YYYY");
+
+        birthday.addTextChangedListener(new TextWatcher() {
+            private String current = "";
+            private String ddmmyyyy = "DDMMYYYY";
+            private Calendar cal = Calendar.getInstance();
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().equals(current)) {
+                    String clean = s.toString().replaceAll("[^\\d.]", "");
+                    String cleanC = current.replaceAll("[^\\d.]", "");
+
+                    int cl = clean.length();
+                    int sel = cl;
+                    for (int i = 2; i <= cl && i < 6; i += 2) {
+                        sel++;
+                    }
+                    //Fix for pressing delete next to a forward slash
+                    if (clean.equals(cleanC)) sel--;
+
+                    if (clean.length() < 8){
+                        clean = clean + ddmmyyyy.substring(clean.length());
+                    }else{
+                        //This part makes sure that when we finish entering numbers
+                        //the date is correct, fixing it otherwise
+                        int day  = Integer.parseInt(clean.substring(0,2));
+                        int mon  = Integer.parseInt(clean.substring(2,4));
+                        int year = Integer.parseInt(clean.substring(4,8));
+
+                        if(mon > 12) mon = 12;
+                        cal.set(Calendar.MONTH, mon-1);
+
+                        year = (year<1900)?1900:(year>2100)?2100:year;
+                        cal.set(Calendar.YEAR, year);
+                        // ^ first set year for the line below to work correctly
+                        //with leap years - otherwise, date e.g. 29/02/2012
+                        //would be automatically corrected to 28/02/2012
+
+                        day = (day > cal.getActualMaximum(Calendar.DATE))? cal.getActualMaximum(Calendar.DATE):day;
+                        clean = String.format("%02d%02d%02d",day, mon, year);
+                    }
+
+                    clean = String.format("%s/%s/%s", clean.substring(0, 2),
+                            clean.substring(2, 4),
+                            clean.substring(4, 8));
+
+                    sel = sel < 0 ? 0 : sel;
+                    current = clean;
+                    birthday.setText(current);
+                    birthday.setSelection(sel < current.length() ? sel : current.length());
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         if (currentUser == null)
         {
@@ -93,7 +156,25 @@ public class profilePage extends Fragment {
         }
         else
         {
+            currentUser = mAuth.getCurrentUser();
             String uid = currentUser.getUid();
+
+            mReferenceUsers.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    //possible issue with datasnap, we might need to fix later
+                    DataSnapshot keyNode = snapshot.child(uid);
+                    UserBox user = keyNode.getValue(UserBox.class);
+                    nameEditText.setText(user.getName());
+                    avatar.setImageURI(Uri.parse(user.getImage_url()));
+                    birthday.setText(user.getBirthday());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
 
             Toast.makeText(getContext(), "User is already logged in!", Toast.LENGTH_LONG).show();
             ActivityResultLauncher<Intent> imageActivity = registerForActivityResult(
@@ -126,16 +207,46 @@ public class profilePage extends Fragment {
                     if (imageURI != null)
                     {
                         uploadToFirebase(imageURI);
-
                     }
+                    if (birthday.getText() != null)
+                    {
+                        mReferenceUsers.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String uid = currentUser.getUid();
+                                String birthdayText = birthday.getText().toString();
+                                mReferenceUsers.child(uid).child("birthday").setValue(birthdayText);
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                    if (nameEditText.getText() != null)
+                    {
+                        mReferenceUsers.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String uid = currentUser.getUid();
+                                String nameText = nameEditText.getText().toString();
+                                mReferenceUsers.child(uid).child("name").setValue(nameText);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
                 }
             });
 
             logout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), "User logged out!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
                     mAuth.signOut();
                     Intent i = new Intent(getContext(), LoginPage.class);
                     startActivity(i);
@@ -162,7 +273,7 @@ public class profilePage extends Fragment {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 String uid = currentUser.getUid();
-                                mReferenceUsers.child(uid).child("image_url").setValue(uid);
+                                mReferenceUsers.child(uid).child("image_url").setValue(modelId);
                             }
 
                             @Override

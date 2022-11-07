@@ -95,6 +95,9 @@ public class registerPage extends AppCompatActivity {
                                     @Override
                                     public void DataIsDeleted() {}
                                 });
+
+                                Intent i = new Intent(registerPage.this, MainActivity.class);
+                                startActivity(i);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

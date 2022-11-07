@@ -72,9 +72,9 @@ public class LoginPage extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    Toast.makeText(LoginPage.this, "Signed in successfully!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(LoginPage.this, "Sign in success!", Toast.LENGTH_LONG).show();
                                     //                                Navigation.findNavController(rootview).navigate(R.id.action_loginPage_to_profilePage);
-                                    Intent i = new Intent(LoginPage.this, registerPage.class);
+                                    Intent i = new Intent(LoginPage.this, MainActivity.class);
                                     startActivity(i);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
