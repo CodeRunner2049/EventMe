@@ -6,39 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
 
+    <ScrollView android:id="@+id/scroll" android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/marker"
+        android:id="@+id/mArker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:text="Marker Title"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="14sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.544" />
+        app:layout_constraintVertical_bias="0.518" />
 
     <ImageView
         android:id="@+id/image_view1"
-        android:layout_width="251dp"
-        android:layout_height="186dp"
+        android:layout_width="304dp"
+        android:layout_height="168dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="72dp"
         android:adjustViewBounds="true"
         android:scaleType="fitStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.174"
+        app:layout_constraintVertical_bias="0.065"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <Button
@@ -48,8 +49,9 @@
         android:text="Register for Event"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.732" />
+        app:layout_constraintVertical_bias="0.833" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

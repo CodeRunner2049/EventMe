@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        markertext = findViewById(R.id.marker);
+        markertext = (TextView) findViewById(R.id.mArker);
         mAuth = FirebaseAuth.getInstance();
 
         registerButton = findViewById(R.id.register);
@@ -72,16 +75,18 @@ public class DetailsActivity extends AppCompatActivity {
                     temporary = eventId;
                 }
 
-                markertext.setText(temporary);
-                markertext.setText("\n");
+
                 String urlImage = temp.getImage_url();
 
                 imageView = findViewById(R.id.image_view1);
                 Glide.with(getApplicationContext()).load(urlImage).into(imageView);
 
+
+                String finalTemporary = temporary;
                 registerButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         currentUser = mAuth.getCurrentUser();
                         if (currentUser != null)
                         {
@@ -104,6 +109,7 @@ public class DetailsActivity extends AppCompatActivity {
                         }
                     }
                 });
+                hideKeyboard(DetailsActivity.this);
 
             }
 
@@ -124,5 +130,13 @@ public class DetailsActivity extends AppCompatActivity {
 
 
 
+    }
+    public static void hideKeyboard(@NonNull Activity activity) {
+        // Check if no view has focus:
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }
