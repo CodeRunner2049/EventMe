@@ -39,6 +39,7 @@ public class profilePage extends Fragment {
     private EditText nameEditText;
     private FirebaseAuth mAuth;
     FirebaseUser currentUser;
+    private StorageReference reference = FirebaseStorage.getInstance().getReference();
 
     private Uri imageURI;
 
@@ -77,7 +78,7 @@ public class profilePage extends Fragment {
         }
         else
         {
-            Toast.makeText(getContext(), "User successfully logged in!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "User is already logged in!", Toast.LENGTH_LONG).show();
             ActivityResultLauncher<Intent> imageActivity = registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
                     new ActivityResultCallback<ActivityResult>() {

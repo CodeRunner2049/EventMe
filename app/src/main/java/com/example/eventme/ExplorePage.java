@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +38,7 @@ public class ExplorePage extends Fragment {
     public ExplorePage() {
         // Required empty public constructor
     }
+
 
     /**
      * Use this factory method to create a new instance of
