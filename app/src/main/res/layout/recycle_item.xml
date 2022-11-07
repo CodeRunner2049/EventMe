@@ -3,53 +3,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="50sp">
 
     <TextView
         android:id="@+id/eventID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="336dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="28dp"
         android:text="TextView"
+        android:textSize="4sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Name"
-        android:layout_width="125dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:text="TextView"
-        android:textSize="20sp"
+        android:textSize="4sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.202" />
 
     <TextView
         android:id="@+id/Cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="8dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.161" />
 
-    <TextView
-        android:id="@+id/eventDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="336dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        android:typeface="monospace"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/eventDescription"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="336dp"-->
+    <!--        android:layout_marginTop="5dp"-->
+    <!--        android:layout_marginBottom="8dp"-->
+    <!--        android:text="TextView"-->
+    <!--        android:typeface="monospace"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="1.0" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

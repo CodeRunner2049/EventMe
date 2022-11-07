@@ -27,7 +27,7 @@ public class RecyclerView_Config {
         private TextView eventID;
         private TextView Name;
         private TextView Cost;
-        private TextView eventDescription;
+//        private TextView eventDescription;
 
         private String key;
 
@@ -37,7 +37,7 @@ public class RecyclerView_Config {
 
             eventID = (TextView) itemView.findViewById(R.id.eventID);
             Name = (TextView) itemView.findViewById(R.id.Name);
-            eventDescription = (TextView) itemView.findViewById(R.id.eventDescription);
+//            eventDescription = (TextView) itemView.findViewById(R.id.eventDescription);
             Cost = (TextView) itemView.findViewById(R.id.Cost);
 
         }
@@ -45,7 +45,7 @@ public class RecyclerView_Config {
         {
             eventID.setText(event.getId());
             Name.setText(event.getName());
-            eventDescription.setText(event.getEvent_Description());
+//            eventDescription.setText(event.getEvent_Description());
             Cost.setText(event.getCost().toString());
             this.key = key;
         }
