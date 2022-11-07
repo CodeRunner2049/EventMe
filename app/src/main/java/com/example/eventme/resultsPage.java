@@ -3,7 +3,6 @@ package com.example.eventme;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -18,6 +17,10 @@ public class resultsPage extends AppCompatActivity {
     ArrayList<String> valid_events = new ArrayList<String>();
     Boolean price_filter;
     Bundle price_bundle;
+
+    Boolean name_filter;
+    Bundle name_bundle;
+
     List<EventBox> sorted_events;
     private RecyclerView mRecyclerView;
 
@@ -36,6 +39,9 @@ public class resultsPage extends AppCompatActivity {
 //        price_filter = getIntent().getBooleanExtra("price_filter",true);
         price_bundle = getIntent().getExtras();
         price_filter = price_bundle.getBoolean("price_filter");
+
+        name_bundle = getIntent().getExtras();
+        name_filter = name_bundle.getBoolean("name_filter");
 
 
 
@@ -63,6 +69,18 @@ public class resultsPage extends AppCompatActivity {
                             return s1.getCost() - s2.getCost();
                         }
                     });
+                }
+
+                if (name_filter)
+                {
+                    if (sorted_events.size() > 0) {
+                        Collections.sort(sorted_events, new Comparator<EventBox>() {
+                            @Override
+                            public int compare(EventBox object1, EventBox object2) {
+                                return object1.getName().compareTo(object2.getName());
+                            }
+                        });
+                    }
                 }
 
 

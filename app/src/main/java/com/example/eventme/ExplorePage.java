@@ -46,6 +46,7 @@ public class ExplorePage extends Fragment {
     Button priceButton;
     Button distanceButton;
     Button event_typeButton;
+    Button nameButton;
 
     private static final String[] paths = {"item 1", "item 2", "item 3"};
 
@@ -128,6 +129,8 @@ public class ExplorePage extends Fragment {
 
         priceButton = rootview.findViewById(R.id.cost);
 
+        nameButton = rootview.findViewById(R.id.name);
+
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -168,6 +171,17 @@ public class ExplorePage extends Fragment {
 
                 Intent intent = new Intent(getContext(), resultsPage.class);
                 intent.putExtra("price_filter",true);
+                startActivity(intent);
+
+            }
+        });
+
+        nameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getContext(), resultsPage.class);
+                intent.putExtra("name_filter",true);
                 startActivity(intent);
 
             }
