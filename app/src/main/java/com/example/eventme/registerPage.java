@@ -1,8 +1,12 @@
 package com.example.eventme;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,38 +20,36 @@ import android.widget.Toast;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link registerPage#} factory method to
- * create an instance of this fragment.
- */
-public class registerPage extends Fragment {
+
+public class registerPage extends AppCompatActivity {
 
     // creating variables for our edit text and buttons.
     private EditText nameEdt, emailEdt, userNameEdt, passwordEdt;
     private Button registerBtn;
-
+    private FirebaseAuth mAuth;
+    FirebaseUser currentUser;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View rootview = inflater.inflate(R.layout.fragment_register_page, container, false);
+        setContentView(R.layout.activity_register_page);
+        mAuth = FirebaseAuth.getInstance();
 
         // initializing our edit text  and buttons.
-        nameEdt = rootview.findViewById(R.id.idEdtFirstName);
-        emailEdt = rootview.findViewById(R.id.idEdtEmail);
-        userNameEdt = rootview.findViewById(R.id.idEdtUserName);
-        passwordEdt = rootview.findViewById(R.id.idEdtPassword);
+        nameEdt = findViewById(R.id.idEdtFirstName);
+        emailEdt = findViewById(R.id.idEdtEmail);
+        userNameEdt = findViewById(R.id.idEdtUserName);
+        passwordEdt = findViewById(R.id.idEdtPassword);
 
-        registerBtn = rootview.findViewById(R.id.idBtnRegister);
+        registerBtn = findViewById(R.id.idBtnRegister);
 
         // adding on click listener for our button.
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -63,44 +65,32 @@ public class registerPage extends Fragment {
 
                 // checking if the entered text is empty or not.
                 if (TextUtils.isEmpty(name) && TextUtils.isEmpty(email)) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Please enter name and email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(registerPage.this, "Please enter name and email", Toast.LENGTH_SHORT).show();
                 }
 
                 if (TextUtils.isEmpty(userName) && TextUtils.isEmpty(password)) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Please enter user name and password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(registerPage.this, "Please enter user name and password", Toast.LENGTH_SHORT).show();
                 }
 
-                // calling a method to login our user.
-                registerUser(name, email, userName, password);
+
+                mAuth.createUserWithEmailAndPassword(userName, password)
+                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                Toast.makeText(registerPage.this, "User registered successfully!", Toast.LENGTH_LONG).show();
+                                currentUser = mAuth.getCurrentUser();
+//                                Navigation.findNavController(rootview).navigate(R.id.action_registerPage_to_profilePage);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(registerPage.this, "Register failed!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
             }
         });
 
-        return rootview;
+
     }
-
-    private void registerUser (String name, String email, String userName, String password) {
-        // calling a method to register a user.
-        // after login checking if the user is null or not.
-        // if the user is not null then we will display a toast message
-        // with user login and passing that user to new activity.
-
-        FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
-        fb.addUser(new UserBox(name, email, userName, password), new FirebaseDatabaseHelper.DataStatus() {
-            @Override
-            public void DataIsLoaded(List<EventBox> events, List<String> keys) {}
-
-            @Override
-            public void DataIsInserted() {Toast.makeText(getActivity().getApplicationContext(), "Register Successful ", Toast.LENGTH_SHORT).show();}
-
-            @Override
-            public void DataIsUpdated() {}
-
-            @Override
-            public void DataIsDeleted() {}
-        });
-        Intent i = new Intent(getActivity().getApplicationContext(), ExpandableListView.class);
-        i.putExtra("username", userName);
-        startActivity(i);
-    }
-
 }

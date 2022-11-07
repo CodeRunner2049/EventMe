@@ -1,9 +1,10 @@
 package com.example.eventme;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class UserBox {
+public class UserBox implements Serializable {
 
     public UserBox(String name, String email, String username, String password){
         this.name = name;

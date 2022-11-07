@@ -10,38 +10,33 @@
 
     <TextView
         android:id="@+id/idTVHeader2"
-        android:layout_width="0dp"
+        android:layout_width="411dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="13dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center_horizontal"
         android:padding="5dp"
         android:text="Profile Page"
         android:textAlignment="center"
         android:textColor="@color/purple_700"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/uploadPicture"
+        app:layout_constraintBottom_toBottomOf="@id/imageUpload"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/uploadPicture"
-        android:layout_width="183dp"
-        android:layout_height="192dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="76dp"
-        android:src="@drawable/avatar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.017"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.07" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="343dp"
         android:layout_height="176dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="34dp"
-        tools:layout_editor_absoluteY="289dp">
+        app:layout_constraintBottom_toTopOf="@+id/imageUpload"
+        app:layout_constraintTop_toBottomOf="@+id/uploadPicture"
+        tools:layout_editor_absoluteX="34dp">
 
         <TextView
             android:id="@+id/nameText"
@@ -85,7 +80,21 @@
         android:layout_height="wrap_content"
         android:text="Update Profile"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="485dp" />
+        tools:layout_editor_absoluteY="515dp" />
+
+    <ImageView
+        android:id="@+id/uploadPicture"
+        android:layout_width="183dp"
+        android:layout_height="192dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/avatar"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTVHeader2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

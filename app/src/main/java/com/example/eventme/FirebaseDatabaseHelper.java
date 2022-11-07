@@ -4,10 +4,14 @@
 package com.example.eventme;
 
 import android.provider.ContactsContract;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,7 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FirebaseDatabaseHelper {
-
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceEvents;
     private DatabaseReference mReferenceUsers;
@@ -36,6 +41,7 @@ public class FirebaseDatabaseHelper {
     }
 
     public FirebaseDatabaseHelper() {
+        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mReferenceEvents = mDatabase.getReference("Events");
         mReferenceUsers = mDatabase.getReference("User");
@@ -87,22 +93,10 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public String addUser(UserBox user, final DataStatus dataStatus)
-    {
-        String userId = mReferenceUsers.push().getKey();
-        mReferenceUsers.child(userId).setValue(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        dataStatus.DataIsInserted();
-                    }
-                });
-
-        return userId;
-    }
 
     public String addEvent(EventBox event, final DataStatus dataStatus)
     {
+
         String eventID = mReferenceEvents.push().getKey();
         mReferenceUsers.child(eventID).setValue(eventID)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
