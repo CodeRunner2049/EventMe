@@ -24,10 +24,11 @@ public class RecyclerView_Config {
 
     class EventItemView extends RecyclerView.ViewHolder
     {
-        private TextView eventID;
+//        private TextView eventID;
         private TextView Name;
         private TextView Cost;
-        private TextView eventDescription;
+        private TextView Date;
+//        private TextView eventDescription;
 
         private String key;
 
@@ -35,18 +36,21 @@ public class RecyclerView_Config {
         {
             super(LayoutInflater.from(mContext).inflate(R.layout.recycle_item, parent, false));
 
-            eventID = (TextView) itemView.findViewById(R.id.eventID);
+//            eventID = (TextView) itemView.findViewById(R.id.eventID);
             Name = (TextView) itemView.findViewById(R.id.Name);
-            eventDescription = (TextView) itemView.findViewById(R.id.eventDescription);
+//            eventDescription = (TextView) itemView.findViewById(R.id.eventDescription);
             Cost = (TextView) itemView.findViewById(R.id.Cost);
+            Date = (TextView) itemView.findViewById(R.id.Date);
 
         }
         public void bind(EventBox event, String key)
         {
-            eventID.setText(event.getId());
+//            eventID.setText(event.getId());
             Name.setText(event.getName());
-            eventDescription.setText(event.getEvent_Description());
+//            eventDescription.setText(event.getEvent_Description());
             Cost.setText(event.getCost().toString());
+
+            Date.setText(event.getDate().substring(0,event.getDate().length()-4));
             this.key = key;
         }
     }
