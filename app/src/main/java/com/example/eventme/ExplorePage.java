@@ -1,12 +1,14 @@
 //old explore page
 package com.example.eventme;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.view.Menu;
@@ -20,66 +22,63 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ExplorePage#newInstance} factory method to
+// * Use the {@link ExplorePage#} factory method to
  * create an instance of this fragment.
  */
 public class ExplorePage extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private Spinner spinner;
+    Button searchButton;
+
+    Button priceButton;
+    Button distanceButton;
+    Button event_typeButton;
+
     private static final String[] paths = {"item 1", "item 2", "item 3"};
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     Spinner dropdown;
 
     //for Action Search
     ListView listView;
-    String[] name =
-            {"James", "Joe", "Alex", "Tony"};
+//    ArrayList<String> cars = new ArrayList<String>();
+    ArrayList<String> event_id = new ArrayList<String>();
+
+
+
+//
+//    "James", "Joe", "Alex", "Tony"};
 
     ArrayAdapter<String> arrayAdapter;
 
     public ExplorePage() {
         // Required empty public constructor
+
     }
 
-
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ExplorePage.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ExplorePage newInstance(String param1, String param2) {
-        ExplorePage fragment = new ExplorePage();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-//
 //    SearchView searchView;
 //    RecyclerView recyclerView;
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 
 
@@ -88,15 +87,25 @@ public class ExplorePage extends Fragment {
             @Override
             public void DataIsLoaded(List<EventBox> events, List<String> keys) {
                 Toast.makeText(getActivity().getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
+
+                for (EventBox e: events)
+                {
+                    event_id.add(e.getId());
+                }
+
             }
-            @Override
-            public void DataIsInserted() {}
 
             @Override
-            public void DataIsUpdated() {}
+            public void DataIsInserted() {
+            }
 
             @Override
-            public void DataIsDeleted() {}
+            public void DataIsUpdated() {
+            }
+
+            @Override
+            public void DataIsDeleted() {
+            }
         });
 
 
@@ -108,12 +117,18 @@ public class ExplorePage extends Fragment {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_explore_page, container, false);
 
+        searchButton = rootview.findViewById(R.id.query);
+
         SearchView searchView = (SearchView) rootview.findViewById(R.id.searchView);
         searchView.setQueryHint("Search Data here...");
 
         listView = rootview.findViewById(R.id.listView);
-        arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, name);
+        arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, event_id);
         listView.setAdapter(arrayAdapter);
+
+        priceButton = rootview.findViewById(R.id.cost);
+
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -128,6 +143,37 @@ public class ExplorePage extends Fragment {
                 return false;
             }
         });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                cars.add("Volvo");
+//                cars.add("BMW");
+//                cars.add("Ford");
+//                cars.add("Mazda");
+
+//                for (int i= 0; i< cars.size(); ++i)
+//                {
+                Intent intent = new Intent(getContext(), resultsPage.class);
+                intent.putExtra("name_filter", event_id);
+                startActivity(intent);
+//                }
+
+            }
+        });
+
+        priceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getContext(), resultsPage.class);
+                intent.putExtra("price_filter",true);
+                startActivity(intent);
+
+            }
+        });
+
+
 
 //        ExpandableListView expandableListView = rootview.findViewById(R.id.expandableListView);
 //        HashMap<String, List<String>> item = new HashMap<>();
@@ -149,7 +195,7 @@ public class ExplorePage extends Fragment {
 //        spinner.setAdapter(dataAdapter);
 
 
-        return inflater.inflate(R.layout.fragment_explore_page, container, false);
+        return rootview;
     }
 
 //    @Override
