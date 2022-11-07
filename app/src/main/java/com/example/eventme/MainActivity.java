@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private DatabaseReference UserRef;
-    //james end bwiebfiwefu
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,32 +61,6 @@ public class MainActivity extends AppCompatActivity {
 //        bottomNavigationView.setupWithNavController(navController);
 
 //
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-
-        ExpandableListView expandableListView = findViewById(R.id.expandableListView);
-        HashMap<String, List<String>> item = new HashMap<>();
-
-        ArrayList<String> Groups = new ArrayList<>();
-        Groups.add("A");
-        Groups.add("B");
-        Groups.add("C");
-        Groups.add("D");
-
-        item.put("Search", Groups);
-
-//        ArrayList<String> windowsGroups = new ArrayList<>();
-//        windowsGroups.add("Windows");
-//        windowsGroups.add("Windows NT");
-//        windowsGroups.add("Windows RT");
-//        windowsGroups.add("Windows Mobile");
-//
-//        item.put("Windows", windowsGroups);
-
-        MyExpandableListAdapter adapter = new MyExpandableListAdapter(item);
-        expandableListView.setAdapter(adapter);
-
-
         inPutID = findViewById(R.id.inputID);
         inputName = findViewById(R.id.inputName);
 

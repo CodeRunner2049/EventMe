@@ -17,26 +17,8 @@
         tools:layout="@layout/fragment_map_page" />
 
     <fragment
-        android:id="@+id/registerPage"
-        android:name="com.example.eventme.registerPage"
-        android:label="fragment_register_page"
-        tools:layout="@layout/fragment_register_page" />
-    <fragment
-        android:id="@+id/loginPage"
-        android:name="com.example.eventme.LoginPage"
-        android:label="fragment_login_page"
-        tools:layout="@layout/fragment_login_page" >
-        <action
-            android:id="@+id/action_loginPage_to_registerPage"
-            app:destination="@id/registerPage" />
-    </fragment>
-    <fragment
         android:id="@+id/profilePage"
         android:name="com.example.eventme.profilePage"
         android:label="fragment_profile_page"
-        tools:layout="@layout/fragment_profile_page" >
-        <action
-            android:id="@+id/action_profilePage_to_loginPage"
-            app:destination="@id/loginPage" />
-    </fragment>
+        tools:layout="@layout/fragment_profile_page" />
 </navigation>
