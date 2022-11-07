@@ -83,7 +83,7 @@ public class mapPage extends Fragment{
 
                     for (EventBox event : events) {
                         LatLng latlng = new LatLng(event.getLatitude(), event.getLongitude());
-                        Marker marker = googleMap.addMarker(new MarkerOptions().position(latlng).title(event.getName()));
+                        Marker marker = googleMap.addMarker(new MarkerOptions().position(latlng).title(event.getId()));
                         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
                         markers.add(marker);
                     }
@@ -104,9 +104,6 @@ public class mapPage extends Fragment{
                 }
             });
 
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
@@ -114,7 +111,7 @@ public class mapPage extends Fragment{
 
                     String markertitle = marker.getTitle();
                     Intent i = new Intent(getContext(), DetailsActivity.class);
-                    i.putExtra("title", markertitle);
+                    i.putExtra("eventId", markertitle);
                     startActivity(i);
 
                     return false;

@@ -71,6 +71,7 @@ public class FirebaseDatabaseHelper {
         });
     }
 
+
     public void readUsers(final DataStatus dataStatus) {
         mReferenceEvents.addValueEventListener(new ValueEventListener() {
             @Override
@@ -93,19 +94,31 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-
-    public String addEvent(EventBox event, final DataStatus dataStatus)
+    public void addUserDetails(UserBox user, final DataStatus dataStatus)
     {
-
-        String eventID = mReferenceEvents.push().getKey();
-        mReferenceUsers.child(eventID).setValue(eventID)
+        currentUser = mAuth.getCurrentUser();
+        String userID = currentUser.getUid();
+        mReferenceUsers.child(userID).setValue(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         dataStatus.DataIsInserted();
                     }
                 });
-        return eventID;
+    }
+
+    public void addEventToUser(final EventBox event, final DataStatus dataStatus)
+    {
+        currentUser = mAuth.getCurrentUser();
+        String userID = currentUser.getUid();
+        String eventID = event.getId();
+        mReferenceUsers.child(userID).child("events").child(eventID).setValue(event)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        dataStatus.DataIsInserted();
+                    }
+                });
     }
 
     public void updateUser(String key, UserBox user, final DataStatus dataStatus)

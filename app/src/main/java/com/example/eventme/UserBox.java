@@ -11,6 +11,7 @@ public class UserBox implements Serializable {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.registeredEvents = new ArrayList<>();
     }
 
     public String getUserId(){

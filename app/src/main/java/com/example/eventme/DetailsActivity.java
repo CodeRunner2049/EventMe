@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -33,6 +37,10 @@ public class DetailsActivity extends AppCompatActivity {
     TextView markertext;
     List<EventBox> listOfEvents;
     private ImageView imageView;
+    private Button registerButton;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private FirebaseDatabaseHelper fb;
 
 
     @Override
@@ -40,8 +48,11 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         markertext = findViewById(R.id.marker);
+        mAuth = FirebaseAuth.getInstance();
 
-        String title = getIntent().getStringExtra("title");
+        registerButton = findViewById(R.id.register);
+
+        String eventId = getIntent().getStringExtra("eventId");
 
 
         FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
@@ -51,32 +62,48 @@ public class DetailsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
                 listOfEvents = events;
 
-                EventBox temp = null;
-                for(EventBox e: listOfEvents){
-                    String horse = e.getName();
-                    if(horse.equals(title)){
-                        temp = e;
-                        break;
-                    }
+                final EventBox temp = events.get(keys.indexOf(eventId));
 
-                }
                 String temporary = "";
                 if(temp != null) {
                     temporary = temp.getDate() + "\n" + temp.getEvent_Type() + temp.getEvent_Description() + "\n";
                 }
                 else{
-                    temporary = title;
+                    temporary = eventId;
                 }
 
                 markertext.setText(temporary);
                 markertext.setText("\n");
-                markertext.setText("testingtestingtesting");
                 String urlImage = temp.getImage_url();
 
                 imageView = findViewById(R.id.image_view1);
                 Glide.with(getApplicationContext()).load(urlImage).into(imageView);
 
-
+                registerButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        currentUser = mAuth.getCurrentUser();
+                        if (currentUser != null)
+                        {
+                            fb.addEventToUser(temp, new FirebaseDatabaseHelper.DataStatus() {
+                                @Override
+                                public void DataIsLoaded(List<EventBox> events, List<String> keys) {}
+                                @Override
+                                public void DataIsInserted() {
+                                    Toast.makeText(DetailsActivity.this, "Added to registered events!", Toast.LENGTH_LONG).show();
+                                }
+                                @Override
+                                public void DataIsUpdated() {                                }
+                                @Override
+                                public void DataIsDeleted() {}
+                            });
+                        }
+                        else
+                        {
+                            Toast.makeText(DetailsActivity.this, "Please login to register", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
             }
 

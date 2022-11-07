@@ -35,7 +35,7 @@ public class profilePage extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private ImageView avatar;
-    private Button profileUpload;
+    private Button profileUpload, logout;
     private EditText nameEditText;
     private FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -67,6 +67,7 @@ public class profilePage extends Fragment {
         nameEditText = rootview.findViewById(R.id.userNameEditText);
 //        birthdayEditText = rootview.findViewById(R.id.BirthdayEditText);
         profileUpload = rootview.findViewById(R.id.imageUpload);
+        logout = rootview.findViewById(R.id.logout);
 
         if (currentUser == null)
         {
@@ -78,30 +79,30 @@ public class profilePage extends Fragment {
         }
         else
         {
-            Toast.makeText(getContext(), "User is already logged in!", Toast.LENGTH_LONG).show();
-            ActivityResultLauncher<Intent> imageActivity = registerForActivityResult(
-                    new ActivityResultContracts.StartActivityForResult(),
-                    new ActivityResultCallback<ActivityResult>() {
-                        @Override
-                        public void onActivityResult(ActivityResult result) {
-                            if (result.getResultCode() == getActivity().RESULT_OK) {
-                                // There are no request codes
-                                Intent data = result.getData();
-                                imageURI = data.getData();
-                                avatar.setImageURI(imageURI);
-                            }
-                        }
-                    });
-
-            avatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent galleryIntent = new Intent();
-                    galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                    galleryIntent.setType("image/*");
-                    imageActivity.launch(galleryIntent);
-                }
-            });
+//            Toast.makeText(getContext(), "User is already logged in!", Toast.LENGTH_LONG).show();
+//            ActivityResultLauncher<Intent> imageActivity = registerForActivityResult(
+//                    new ActivityResultContracts.StartActivityForResult(),
+//                    new ActivityResultCallback<ActivityResult>() {
+//                        @Override
+//                        public void onActivityResult(ActivityResult result) {
+//                            if (result.getResultCode() == getActivity().RESULT_OK) {
+//                                // There are no request codes
+//                                Intent data = result.getData();
+//                                imageURI = data.getData();
+//                                avatar.setImageURI(imageURI);
+//                            }
+//                        }
+//                    });
+//
+//            avatar.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent galleryIntent = new Intent();
+//                    galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+//                    galleryIntent.setType("image/*");
+//                    imageActivity.launch(galleryIntent);
+//                }
+//            });
 
             profileUpload.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -116,11 +117,21 @@ public class profilePage extends Fragment {
                     }
                 }
             });
+
+            logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getContext(), "User logged out!", Toast.LENGTH_SHORT).show();
+                    mAuth.signOut();
+                    Intent i = new Intent(getContext(), LoginPage.class);
+                    startActivity(i);
+                }
+            });
         }
 
 
 
-        return inflater.inflate(R.layout.fragment_profile_page, container, false);
+        return rootview;
     }
 
 }

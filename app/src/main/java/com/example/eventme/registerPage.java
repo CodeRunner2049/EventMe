@@ -32,10 +32,11 @@ import java.util.List;
 public class registerPage extends AppCompatActivity {
 
     // creating variables for our edit text and buttons.
+    FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
     private EditText nameEdt, emailEdt, userNameEdt, passwordEdt;
     private Button registerBtn;
     private FirebaseAuth mAuth;
-    FirebaseUser currentUser;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,20 @@ public class registerPage extends AppCompatActivity {
                                 Toast.makeText(registerPage.this, "User registered successfully!", Toast.LENGTH_LONG).show();
                                 currentUser = mAuth.getCurrentUser();
 //                                Navigation.findNavController(rootview).navigate(R.id.action_registerPage_to_profilePage);
+
+                                UserBox user = new UserBox(name, email, userName, password);
+                                fb.addUserDetails(user, new FirebaseDatabaseHelper.DataStatus() {
+                                    @Override
+                                    public void DataIsLoaded(List<EventBox> events, List<String> keys) {                                    }
+                                    @Override
+                                    public void DataIsInserted() {}
+
+                                    @Override
+                                    public void DataIsUpdated() {}
+
+                                    @Override
+                                    public void DataIsDeleted() {}
+                                });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -87,6 +102,8 @@ public class registerPage extends AppCompatActivity {
                                 Toast.makeText(registerPage.this, "Register failed!", Toast.LENGTH_LONG).show();
                             }
                         });
+
+
 
             }
         });
