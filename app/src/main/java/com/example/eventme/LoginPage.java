@@ -1,7 +1,11 @@
 package com.example.eventme;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -22,27 +26,32 @@ import android.widget.Toast;
 import android.content.Intent;
 import android.text.TextUtils;
 
-public class LoginPage extends Fragment {
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+
+public class LoginPage extends AppCompatActivity {
 
     // creating variables for our edit text and buttons.
     private EditText userNameEdt, passwordEdt;
     private Button loginBtn, registerBtn;
+    private FirebaseAuth mAuth;
+    FirebaseUser currentUser;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View rootview = inflater.inflate(R.layout.fragment_login_page, container, false);
+        setContentView(R.layout.activity_login_page);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         // initializing our edit text  and buttons.
-        userNameEdt = rootview.findViewById(R.id.idEdtUserName);
-        passwordEdt = rootview.findViewById(R.id.idEdtPassword);
-        loginBtn = rootview.findViewById(R.id.idBtnLogin);
+        userNameEdt = findViewById(R.id.idEdtUserName);
+        passwordEdt = findViewById(R.id.idEdtPassword);
+        loginBtn = findViewById(R.id.idBtnLogin);
 
         // adding on click listener for our button.
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -55,39 +64,38 @@ public class LoginPage extends Fragment {
 
                 // checking if the entered text is empty or not.
                 if (TextUtils.isEmpty(userName) && TextUtils.isEmpty(password)) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Please enter user name and password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginPage.this.getApplicationContext(), "Please enter user name and password", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    // calling a method to login our user.
+                    mAuth.signInWithEmailAndPassword(userName, password)
+                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    Toast.makeText(LoginPage.this, "Signed in successfully!", Toast.LENGTH_LONG).show();
+                                    //                                Navigation.findNavController(rootview).navigate(R.id.action_loginPage_to_profilePage);
+                                    Intent i = new Intent(LoginPage.this, registerPage.class);
+                                    startActivity(i);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(LoginPage.this, "Sign in failed!" + e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
                 }
 
-                // calling a method to login our user.
-                loginUser(userName, password);
             }
         });
 
-        registerBtn = rootview.findViewById(R.id.action_loginPage_to_registerPage);
+        registerBtn = findViewById(R.id.action_loginPage_to_registerPage);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Navigation.findNavController(rootview).navigate(R.id.action_loginPage_to_registerPage);
+                Intent i = new Intent(LoginPage.this, registerPage.class);
+                startActivity(i);
+//                Navigation.findNavController().navigate(R.id.action_loginPage_to_registerPage);
             }
         });
-
-        return rootview;
-    }
-
-    private void loginUser(String userName, String password) {
-        // calling a method to login a user.
-        // after login checking if the user is null or not.
-        if (userName == "admin" && password == "password") {
-            // if the user is not null then we will display a toast message
-            // with user login and passing that user to new activity.
-            Toast.makeText(getActivity().getApplicationContext(), "Register Successful ", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getActivity().getApplicationContext(), MyExpandableListAdapter.class);
-            i.putExtra("username", userName);
-            startActivity(i);
-        } else {
-            // display a toast message when user logout of the app.
-            Toast.makeText(getActivity().getApplicationContext(), "Incorrect login credentials", Toast.LENGTH_LONG).show();
-        }
     }
 }

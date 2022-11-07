@@ -18,7 +18,6 @@ import com.example.eventme.databinding.ActivityMainBinding;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private DatabaseReference UserRef;
-    //james end bwiebfiwefu
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.explorePage, R.id.mapPage, R.id.profilePage)
+                R.id.expandableListView, R.id.mapPage, R.id.profilePage)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -63,15 +61,6 @@ public class MainActivity extends AppCompatActivity {
 //        bottomNavigationView.setupWithNavController(navController);
 
 //
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-
-
-//        ArrayList<Item> itemList =
-
-
-
-
         inPutID = findViewById(R.id.inputID);
         inputName = findViewById(R.id.inputName);
 
