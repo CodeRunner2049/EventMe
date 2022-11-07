@@ -26,6 +26,12 @@ public class resultsPage extends AppCompatActivity {
     Boolean date_filter;
     Bundle date_bundle;
 
+    Boolean curr_loc_flag;
+    Bundle curr_loc_bundle;
+
+    Boolean dist_filter;
+    Bundle dist_bundle;
+
     List<EventBox> sorted_events;
     private RecyclerView mRecyclerView;
 
@@ -50,6 +56,12 @@ public class resultsPage extends AppCompatActivity {
 
         date_bundle = getIntent().getExtras();
         date_filter = date_bundle.getBoolean("date_filter");
+
+        curr_loc_bundle = getIntent().getExtras();
+        curr_loc_flag = curr_loc_bundle.getBoolean("curr_loc");
+
+        dist_bundle = getIntent().getExtras();
+        dist_filter = date_bundle.getBoolean("dist_filter");
 
 
 
@@ -113,6 +125,11 @@ public class resultsPage extends AppCompatActivity {
                             return o1.getDate().compareTo(o2.getDate());
                         }
                     });
+                }
+
+                if (curr_loc_flag && dist_filter) //current location and destination location found
+                {
+
                 }
 
 

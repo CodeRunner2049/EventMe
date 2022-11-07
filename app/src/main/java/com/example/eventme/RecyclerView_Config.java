@@ -28,6 +28,7 @@ public class RecyclerView_Config {
         private TextView Name;
         private TextView Cost;
         private TextView Date;
+        private TextView DestCoord;
 //        private TextView eventDescription;
 
         private String key;
@@ -41,6 +42,7 @@ public class RecyclerView_Config {
 //            eventDescription = (TextView) itemView.findViewById(R.id.eventDescription);
             Cost = (TextView) itemView.findViewById(R.id.Cost);
             Date = (TextView) itemView.findViewById(R.id.Date);
+            DestCoord = (TextView) itemView.findViewById(R.id.DestCoord);
 
         }
         public void bind(EventBox event, String key)
@@ -51,6 +53,10 @@ public class RecyclerView_Config {
             Cost.setText(event.getCost().toString());
 
             Date.setText(event.getDate().substring(0,event.getDate().length()-4));
+
+            String destination_loc = "(" + event.getLatitude().toString() + ", " + event.getLongitude().toString() + ")";
+            DestCoord.setText(destination_loc);
+
             this.key = key;
         }
     }
