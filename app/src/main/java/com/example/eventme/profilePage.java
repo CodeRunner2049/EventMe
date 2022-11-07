@@ -1,5 +1,6 @@
 package com.example.eventme;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,19 +17,28 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class profilePage extends Fragment {
@@ -38,14 +49,17 @@ public class profilePage extends Fragment {
     private Button profileUpload, logout;
     private EditText nameEditText;
     private FirebaseAuth mAuth;
-    FirebaseUser currentUser;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReferenceUsers;
+    private FirebaseUser currentUser;
     private StorageReference reference = FirebaseStorage.getInstance().getReference();
-
     private Uri imageURI;
 
 
     public profilePage() {
         // Required empty public constructor
+        mDatabase = FirebaseDatabase.getInstance();
+        mReferenceUsers = mDatabase.getReference("User");
     }
 
 
@@ -79,42 +93,42 @@ public class profilePage extends Fragment {
         }
         else
         {
-//            Toast.makeText(getContext(), "User is already logged in!", Toast.LENGTH_LONG).show();
-//            ActivityResultLauncher<Intent> imageActivity = registerForActivityResult(
-//                    new ActivityResultContracts.StartActivityForResult(),
-//                    new ActivityResultCallback<ActivityResult>() {
-//                        @Override
-//                        public void onActivityResult(ActivityResult result) {
-//                            if (result.getResultCode() == getActivity().RESULT_OK) {
-//                                // There are no request codes
-//                                Intent data = result.getData();
-//                                imageURI = data.getData();
-//                                avatar.setImageURI(imageURI);
-//                            }
-//                        }
-//                    });
-//
-//            avatar.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent galleryIntent = new Intent();
-//                    galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-//                    galleryIntent.setType("image/*");
-//                    imageActivity.launch(galleryIntent);
-//                }
-//            });
+            String uid = currentUser.getUid();
+
+            Toast.makeText(getContext(), "User is already logged in!", Toast.LENGTH_LONG).show();
+            ActivityResultLauncher<Intent> imageActivity = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            if (result.getResultCode() == getActivity().RESULT_OK) {
+                                // There are no request codes
+                                Intent data = result.getData();
+                                imageURI = data.getData();
+                                avatar.setImageURI(imageURI);
+                            }
+                        }
+                    });
+
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent galleryIntent = new Intent();
+                    galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                    galleryIntent.setType("image/*");
+                    imageActivity.launch(galleryIntent);
+                }
+            });
 
             profileUpload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (imageURI != null)
                     {
+                        uploadToFirebase(imageURI);
 
                     }
-                    else
-                    {
-                        Toast.makeText(getContext(), "Please Select Image", Toast.LENGTH_SHORT).show();
-                    }
+
                 }
             });
 
@@ -132,6 +146,47 @@ public class profilePage extends Fragment {
 
 
         return rootview;
+    }
+
+    private void uploadToFirebase (Uri uri)
+    {
+        StorageReference fileRef = reference.child(System.currentTimeMillis() + getFileExtension(uri));
+        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String modelId = uri.toString();
+                        mReferenceUsers.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String uid = currentUser.getUid();
+                                mReferenceUsers.child(uid).child("image_url").setValue(uid);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        Toast.makeText(getContext(), "Upload Successful", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Uploading Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private String getFileExtension (Uri mUri)
+    {
+        ContentResolver cr = getContext().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(mUri));
     }
 
 }
