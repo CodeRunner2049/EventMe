@@ -42,15 +42,16 @@
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="281dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="64dp"
-
-        android:layout_marginTop="48dp"
+        android:layout_width="327dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="400dp"
         android:background="@color/white"
         android:icon="@drawable/ic_search"
         android:title="Search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:layout_constraintBottom_toTopOf="@+id/listView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:queryHint="Search here"
@@ -58,10 +59,41 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="409dp"
-        android:layout_height="585dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="145dp" />
+        android:layout_width="407dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="38dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cost" />
+
+    <Button
+        android:id="@+id/query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginBottom="353dp"
+        android:text="Filter by Price"
+        app:layout_constraintBottom_toTopOf="@+id/listView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.155"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <!--        </androidx.cardview.widget.CardView>-->
