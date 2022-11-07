@@ -6,6 +6,8 @@ import java.util.Date;
 
 public class UserBox implements Serializable {
 
+    public UserBox() {}
+
     public UserBox(String name, String email, String username, String password){
         this.name = name;
         this.email = email;
@@ -30,7 +32,7 @@ public class UserBox implements Serializable {
         return name;
     }
 
-    public Date getBirthday(){
+    public String getBirthday(){
         return birthday;
     }
 
@@ -42,7 +44,7 @@ public class UserBox implements Serializable {
         return registeredEvents;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -82,7 +84,7 @@ public class UserBox implements Serializable {
     private String password;
     private String email;
     private String name;
-    private Date birthday;
+    private String birthday;
     private String image_url;
     private ArrayList<EventBox> registeredEvents;
 
