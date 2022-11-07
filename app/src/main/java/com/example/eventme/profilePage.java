@@ -77,7 +77,8 @@ public class profilePage extends Fragment {
         }
         else
         {
-            Toast.makeText(getContext(), "User successfully logged in!", Toast.LENGTH_LONG).show();
+
+
             ActivityResultLauncher<Intent> imageActivity = registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
                     new ActivityResultCallback<ActivityResult>() {
