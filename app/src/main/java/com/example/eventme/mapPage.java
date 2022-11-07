@@ -6,6 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -36,6 +41,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class mapPage extends Fragment{
 
@@ -110,11 +116,13 @@ public class mapPage extends Fragment{
                 public boolean onMarkerClick(@NonNull Marker marker) {
 
                     String markertitle = marker.getTitle();
-                    Intent i = new Intent(getContext(), DetailsActivity.class);
-                    i.putExtra("eventId", markertitle);
-                    startActivity(i);
+                    if(!markertitle.equals("Your current location!")) {
+                        Intent i = new Intent(getContext(), DetailsActivity.class);
+                        i.putExtra("eventId", markertitle);
+                        startActivity(i);
+                    }
 
-                    return false;
+                        return false;
                 }
             });
 
@@ -123,16 +131,16 @@ public class mapPage extends Fragment{
 //            googleMap.addMarker(new MarkerOptions().position(currLoci).title("Your current location!"));
 
             fusedLocationClient.getLastLocation().addOnSuccessListener((Activity) getContext(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                LatLng currLoci = new LatLng(location.getLatitude(), location.getLongitude());
-                                googleMap.addMarker(new MarkerOptions().position(currLoci).title("Your current location!"));
-                            }
-                        }
+                @Override
+                public void onSuccess(Location location) {
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        LatLng currLoci = new LatLng(location.getLatitude(), location.getLongitude());
+                        googleMap.addMarker(new MarkerOptions().position(currLoci).title("Your current location!"));
+                    }
+                }
 
-                    });
+            });
 
 
 
@@ -146,8 +154,10 @@ public class mapPage extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_map_page, container, false);
+        return rootView;
 
-        return inflater.inflate(R.layout.fragment_map_page, container, false);
+
     }
 
     @Override
@@ -167,40 +177,16 @@ public class mapPage extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity().getApplicationContext());
-        fetchLastLocation();
+        //fetchLastLocation();
 
 
     }
 
-    private void fetchLastLocation() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]
-                    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-            return;
-        }
-        Task<Location> task = fusedLocationClient.getLastLocation();
-        task.addOnSuccessListener(location -> {
-            if (location != null) {
-                currLocation = location;
-                UpdateCurrentLocation();
-                Toast.makeText(getContext(), currLocation.getLatitude()
-                        + "" + currLocation.getLongitude(), Toast.LENGTH_SHORT).show();
-                SupportMapFragment supportMapFragment = (SupportMapFragment)
-                        getChildFragmentManager().findFragmentById(R.id.map);
-                supportMapFragment.getMapAsync((OnMapReadyCallback) mapPage.this);
-            }
-        });
-    }
-    private void UpdateCurrentLocation() {
-        LatLng latLng = new LatLng(currLocation.getLatitude(),
-                currLocation.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng)
-                .title("Here I am!");
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
-        googleMap.addMarker(markerOptions);
-    }
+
 
 
 
 }
+
+
+
