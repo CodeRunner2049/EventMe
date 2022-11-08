@@ -78,9 +78,6 @@ public class resultsPage extends AppCompatActivity {
         date_bundle = intent.getExtras();
         date_filter = date_bundle.getBoolean("date_filter");
 
-//        curr_loc_bundle = getIntent().getExtras();
-//        curr_loc_flag = curr_loc_bundle.getBoolean("curr_loc");
-
         dist_bundle = intent.getExtras();
         dist_filter = date_bundle.getBoolean("dist_filter");
 
