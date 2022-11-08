@@ -10,6 +10,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -32,6 +33,9 @@ public class resultsPage extends AppCompatActivity {
     Boolean dist_filter;
     Bundle dist_bundle;
 
+    String userInput;
+    Bundle stringInput;
+
     List<EventBox> sorted_events;
     private RecyclerView mRecyclerView;
 
@@ -40,6 +44,25 @@ public class resultsPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_page);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        class MyComparator implements Comparator<String> {
+
+            private final String keyWord;
+
+            MyComparator(String keyWord) {
+                this.keyWord = keyWord;
+            }
+
+            @Override
+            public int compare(String o1, String o2) {
+
+                if(o1.startsWith(keyWord)) {
+                    return o2.startsWith(keyWord)? o1.compareTo(o2): -1;
+                } else {
+                    return o2.startsWith(keyWord)? 1: o1.compareTo(o2);
+                }
+            }
+        }
 
 
         Intent intent = getIntent();
@@ -62,6 +85,9 @@ public class resultsPage extends AppCompatActivity {
 
         dist_bundle = getIntent().getExtras();
         dist_filter = date_bundle.getBoolean("dist_filter");
+
+        stringInput = getIntent().getExtras();
+        userInput = stringInput.getString("usersinput");
 
 
 
@@ -125,6 +151,16 @@ public class resultsPage extends AppCompatActivity {
                             return o1.getDate().compareTo(o2.getDate());
                         }
                     });
+                }
+
+                if (!userInput.equals(""))
+                {
+
+                    String[] s = {"z", "asxdf", "abasdf", "abcasdf", "b", "bc", "bcd", "c"};
+                    Arrays.sort(s, new MyComparator(userInput));
+                    System.out.println(Arrays.toString(s));
+
+
                 }
 
 //                if (curr_loc_flag && dist_filter) //current location and destination location found

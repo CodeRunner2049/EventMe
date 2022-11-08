@@ -48,6 +48,7 @@ public class ExplorePage extends Fragment {
 //    Button event_typeButton;
     Button nameButton;
     Button dateButton;
+    String userInput;
 
 
     private static final String[] paths = {"item 1", "item 2", "item 3"};
@@ -136,10 +137,13 @@ public class ExplorePage extends Fragment {
         distButton = rootview.findViewById(R.id.Destination);
 
 
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                userInput = s;
+                Intent intent = new Intent(getContext(), resultsPage.class);
+                intent.putExtra("usersinput", userInput);
+                startActivity(intent);
                 return false;
             }
 
@@ -151,23 +155,17 @@ public class ExplorePage extends Fragment {
             }
         });
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                cars.add("Volvo");
-//                cars.add("BMW");
-//                cars.add("Ford");
-//                cars.add("Mazda");
 
-//                for (int i= 0; i< cars.size(); ++i)
-//                {
-                Intent intent = new Intent(getContext(), resultsPage.class);
-                intent.putExtra("name_filter", event_id);
-                startActivity(intent);
-//                }
-
-            }
-        });
+//        searchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent intent = new Intent(getContext(), resultsPage.class);
+//                intent.putExtra("name_filter", userInput);
+//                startActivity(intent);
+//
+//            }
+//        });
 
         priceButton.setOnClickListener(new View.OnClickListener() {
             @Override
