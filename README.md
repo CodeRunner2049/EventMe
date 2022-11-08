@@ -1,10 +1,12 @@
 # EventMe
 
-Device: Pixel 2 API 24 Android 7.0 Google APIs | arm 64
-EventMe version 1.0
+
 Authors: Sri Doupaty, Mourad Zeynalov, James Fan
 
 **************************************************************************************
+
+Device: Pixel 2 API 24 Android 7.0 Google APIs | arm 64
+EventMe version 1.0
 
 How to Run Android Application: 
 1. Unzip Zip file that contains project
