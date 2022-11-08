@@ -172,9 +172,7 @@ public class mapPage extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity().getApplicationContext());
-        fetchLastLocation();
-
-
+//        fetchLastLocation();
     }
 
     private void fetchLastLocation() {
