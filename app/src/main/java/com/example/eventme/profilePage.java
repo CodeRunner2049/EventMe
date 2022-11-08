@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -169,8 +170,8 @@ public class profilePage extends Fragment {
                     DataSnapshot keyNode = snapshot.child(uid);
                     UserBox user = keyNode.getValue(UserBox.class);
                     nameEditText.setText(user.getName());
-                    avatar.setImageURI(Uri.parse(user.getImage_url()));
-//                    Glide.with(getContext()).load(avatar).into(avatar);
+//                    avatar.setImageURI(Uri.parse(user.getImage_url()));
+                    Glide.with(getContext()).load(user.getImage_url()).into(avatar);
                     birthday.setText(user.getBirthday());
                 }
 
