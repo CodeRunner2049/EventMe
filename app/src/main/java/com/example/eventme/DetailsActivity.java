@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.metrics.Event;
@@ -71,24 +72,26 @@ public class DetailsActivity extends AppCompatActivity {
 
                 String temporary = "";
                 if(temp != null) {
-                    temporary = temp.getDate() + "\n" + temp.getEvent_Type() + temp.getEvent_Description() + "\n";
+                    temporary = temp.getName() + "\n" + temp.getDate() + "\n" + temp.getEvent_Type() + "\n" + temp.getEvent_Description() + "\n";
                 }
                 else{
                     temporary = eventId;
                 }
 
+                markertext.setText(temporary);
                 String urlImage = temp.getImage_url();
                 imageView = findViewById(R.id.image_view1);
                 Glide.with(getApplicationContext()).load(urlImage).into(imageView);
 
+                currentUser = mAuth.getCurrentUser();
                 fb.readUserEvents(new FirebaseDatabaseHelper.DataStatus() {
                     @Override
                     public void DataIsLoaded(List<EventBox> events, List<String> keys) {
                         if (currentUser != null)
                         {
-                            if (events.contains(temp))
+                            if (!keys.contains(temp.getId()))
                             {
-                                registerButton.setText("Unregister");
+                                registerButton.setText("Register for Event");
                                 registerButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -114,7 +117,7 @@ public class DetailsActivity extends AppCompatActivity {
                             }
                             else
                             {
-                                registerButton.setText("Register");
+                                registerButton.setText("Unregister from Event");
                                 registerButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -140,6 +143,8 @@ public class DetailsActivity extends AppCompatActivity {
                         else
                         {
                             Toast.makeText(DetailsActivity.this, "Please login to register", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(DetailsActivity.this, LoginPage.class);
+                            startActivity(intent);
                         }
                     }
 

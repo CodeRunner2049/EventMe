@@ -1,7 +1,9 @@
 package com.example.eventme;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -24,7 +26,7 @@ public class RecyclerView_Config {
 
     class EventItemView extends RecyclerView.ViewHolder
     {
-//        private TextView eventID;
+        private TextView eventID;
         private TextView Name;
         private TextView Cost;
         private TextView Date;
@@ -37,17 +39,26 @@ public class RecyclerView_Config {
         {
             super(LayoutInflater.from(mContext).inflate(R.layout.recycle_item, parent, false));
 
-//            eventID = (TextView) itemView.findViewById(R.id.eventID);
+            eventID = (TextView) itemView.findViewById(R.id.eventID);
             Name = (TextView) itemView.findViewById(R.id.Name);
 //            eventDescription = (TextView) itemView.findViewById(R.id.eventDescription);
             Cost = (TextView) itemView.findViewById(R.id.Cost);
             Date = (TextView) itemView.findViewById(R.id.Date);
 //            DestCoord = (TextView) itemView.findViewById(R.id.DestCoord);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, DetailsActivity.class);
+                    intent.putExtra("eventId", eventID.getText().toString());
+                    mContext.startActivity(intent);
+                }
+            });
+
         }
         public void bind(EventBox event, String key)
         {
-//            eventID.setText(event.getId());
+            eventID.setText(event.getId());
             Name.setText(event.getName());
 //            eventDescription.setText(event.getEvent_Description());
             Cost.setText(event.getCost().toString());

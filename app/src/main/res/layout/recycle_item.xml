@@ -19,7 +19,7 @@
         android:id="@+id/Name"
         android:layout_width="125dp"
         android:layout_height="46dp"
-        android:layout_marginStart="132dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="4dp"
         android:text="TextView"
         android:textSize="14sp"
@@ -39,18 +39,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.136" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/DestCoord"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="132dp"-->
-<!--        android:layout_marginTop="5dp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:text="TextView"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.136" />-->
+    <TextView
+        android:id="@+id/eventID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.617"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.741" />
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/DestCoord"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="132dp"-->
+    <!--        android:layout_marginTop="5dp"-->
+    <!--        android:layout_marginBottom="8dp"-->
+    <!--        android:text="TextView"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.136" />-->
 
     <!--    <TextView-->
     <!--        android:id="@+id/eventDescription"-->

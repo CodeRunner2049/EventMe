@@ -34,6 +34,9 @@ public class resultsPage extends AppCompatActivity {
     Boolean dist_filter;
     Bundle dist_bundle;
 
+    Boolean search_type;
+    Bundle search_bundle;
+
     String userInput;
     Bundle stringInput;
 
@@ -81,6 +84,9 @@ public class resultsPage extends AppCompatActivity {
         dist_bundle = intent.getExtras();
         dist_filter = date_bundle.getBoolean("dist_filter");
 
+        search_bundle = intent.getExtras();
+        search_type = search_bundle.getBoolean("searchType");
+
         stringInput = getIntent().getExtras();
         userInput = stringInput.getString("usersinput");
 
@@ -124,25 +130,30 @@ public class resultsPage extends AppCompatActivity {
 
         if (userInput != null)
         {
+            ArrayList<EventBox> newEvents = new ArrayList<>();
 
-            //String[] s = {"z", "asxdf", "abasdf", "abcasdf", "b", "bc", "bcd", "c"};
+            if (!search_type)
+            {
+                for(EventBox e : sorted_events){
+                    if(e.getName() != null && e.getName().toLowerCase().contains(userInput.toLowerCase()))
+                    {
+                        newEvents.add(e);
+                    }
+                }
 
-            ArrayList<String> sorted_strings = new ArrayList<>();
-            for(EventBox e: sorted_events){
-                sorted_strings.add(e.getName());
+            }
+            else
+            {
+                for(EventBox e : sorted_events){
+                    if(e.getName() != null && e.getEvent_Type().toLowerCase().contains(userInput.toLowerCase()))
+                    {
+                        newEvents.add(e);
+                    }
+                }
             }
 
-            String[] s = new String[sorted_strings.size()];
-            for(int i = 0; i < sorted_events.size();i++){
-                s[i] = sorted_strings.get(i);
-            }
-
-            Arrays.sort(s, new MyComparator(userInput));
-            System.out.println(Arrays.toString(s));
-
-             new RecyclerView_Config().setConfig(mRecyclerView,resultsPage.this, sorted_events, keys);
-            Toast.makeText(getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
-
+            new RecyclerView_Config().setConfig(mRecyclerView,resultsPage.this, newEvents, keys);
+            Toast.makeText(getApplicationContext(), "Applied Query", Toast.LENGTH_SHORT).show();
         }
 
 

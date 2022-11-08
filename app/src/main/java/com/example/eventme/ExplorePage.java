@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 
@@ -50,6 +52,8 @@ public class ExplorePage extends Fragment {
     Button nameButton;
     Button dateButton;
     String userInput;
+    Switch searchType;
+    boolean type_or_search = false;
 
 
     private static final String[] paths = {"item 1", "item 2", "item 3"};
@@ -61,12 +65,6 @@ public class ExplorePage extends Fragment {
     ListView listView;
 //    ArrayList<String> cars = new ArrayList<String>();
     ArrayList<String> event_id = new ArrayList<String>();
-
-
-
-//
-//    "James", "Joe", "Alex", "Tony"};
-
     ArrayAdapter<String> arrayAdapter;
 
     public ExplorePage() {
@@ -74,19 +72,11 @@ public class ExplorePage extends Fragment {
 
     }
 
-//    SearchView searchView;
-//    RecyclerView recyclerView;
-
-
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
         FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
         fb.readEvents(new FirebaseDatabaseHelper.DataStatus() {
             @Override
@@ -122,8 +112,6 @@ public class ExplorePage extends Fragment {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_explore_page, container, false);
 
-        searchButton = rootview.findViewById(R.id.query);
-
         SearchView searchView = (SearchView) rootview.findViewById(R.id.searchView);
         searchView.setQueryHint("Search Data here...");
 
@@ -132,7 +120,7 @@ public class ExplorePage extends Fragment {
         listView.setAdapter(arrayAdapter);
 
         priceButton = rootview.findViewById(R.id.cost);
-
+        searchType = rootview.findViewById(R.id.searchType);
         nameButton = rootview.findViewById(R.id.name);
         dateButton = rootview.findViewById(R.id.date);
         distButton = rootview.findViewById(R.id.Destination);
@@ -154,6 +142,7 @@ public class ExplorePage extends Fragment {
                     @Override
                     public boolean onQueryTextSubmit(String s) {
                         userInput = s;
+                        intent.putExtra("searchType",type_or_search);
                         intent.putExtra("usersinput", userInput);
                         startActivity(intent);
                         return false;
@@ -167,23 +156,12 @@ public class ExplorePage extends Fragment {
                     }
                 });
 
-//                searchButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-////                cars.add("Volvo");
-////                cars.add("BMW");
-////                cars.add("Ford");
-////                cars.add("Mazda");
-//
-////                for (int i= 0; i< cars.size(); ++i)
-////                {
-//
-//                        intent.putExtra("name_filter", event_id);
-//                        startActivity(intent);
-////                }
-//
-//                    }
-//                });
+                searchType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                      @Override
+                      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                          type_or_search = isChecked;
+                      }
+                  });
 
                 priceButton.setOnClickListener(new View.OnClickListener() {
                     @Override

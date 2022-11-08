@@ -170,6 +170,7 @@ public class profilePage extends Fragment {
                     UserBox user = keyNode.getValue(UserBox.class);
                     nameEditText.setText(user.getName());
                     avatar.setImageURI(Uri.parse(user.getImage_url()));
+//                    Glide.with(getContext()).load(avatar).into(avatar);
                     birthday.setText(user.getBirthday());
                 }
 
@@ -277,6 +278,9 @@ public class profilePage extends Fragment {
                 public void onClick(View view) {
                     Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
                     mAuth.signOut();
+                    nameEditText.setText("");
+                    birthday.setText("");
+                    avatar.setImageURI(null);
                     Intent i = new Intent(getContext(), LoginPage.class);
                     startActivity(i);
                 }

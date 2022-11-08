@@ -40,16 +40,6 @@
         app:layout_constraintTop_toBottomOf="@+id/cost" />
 
     <Button
-        android:id="@+id/query"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="196dp"
-        android:text="Search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
         android:id="@+id/cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,6 +88,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.502" />
+
+    <Switch
+        android:id="@+id/searchType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name/Type"
+        app:layout_constraintBottom_toTopOf="@+id/cost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <!--        </androidx.cardview.widget.CardView>-->
