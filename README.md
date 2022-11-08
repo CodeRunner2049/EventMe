@@ -32,6 +32,19 @@ Suggestions:
 - Power off the AVD emulator
 - Run again and wait for the app to load
 - Restart Computer
+
+
+Search Queries 
+
+For when you want to search for type of the event, these are the queries you would need to enter in to filter by event type:
+
+Festival
+Nightclub
+Concert
+Misc.
+Dining
+Sports
+Party
 - Improve Internet Connection Speed
 
 19. IMPORTANT: You need to use the back arrow on the emulator to go back when navigating between the different popup pages. 
