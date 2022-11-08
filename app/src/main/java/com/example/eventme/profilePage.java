@@ -38,6 +38,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,13 +50,14 @@ public class profilePage extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private ImageView avatar;
-    private Button profileUpload, logout;
+    private Button profileUpload, logout, registeredEvents;
     private EditText nameEditText, birthday;
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceUsers;
     private FirebaseUser currentUser;
     private StorageReference reference = FirebaseStorage.getInstance().getReference();
+    FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
     private Uri imageURI;
 
 
@@ -84,6 +86,7 @@ public class profilePage extends Fragment {
         nameEditText = rootview.findViewById(R.id.userNameEditText);
         birthday = rootview.findViewById(R.id.birthdayEditText);
         profileUpload = rootview.findViewById(R.id.imageUpload);
+        registeredEvents = rootview.findViewById(R.id.registeredEvents);
         logout = rootview.findViewById(R.id.logout);
         birthday.setText("DD/MM/YYYY");
 
@@ -240,6 +243,32 @@ public class profilePage extends Fragment {
                             }
                         });
                     }
+                }
+            });
+
+            registeredEvents.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    fb.readUserEvents(new FirebaseDatabaseHelper.DataStatus() {
+                        @Override
+                        public void DataIsLoaded(List<EventBox> events, List<String> keys) {
+                            Intent intent = new Intent(getContext(), resultsPage.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("events",(Serializable)events);
+                            bundle.putSerializable("keys",(Serializable)keys);
+                            intent.putExtra("events+keys", bundle);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void DataIsInserted() {}
+
+                        @Override
+                        public void DataIsUpdated() {}
+
+                        @Override
+                        public void DataIsDeleted() {}
+                    });
                 }
             });
 

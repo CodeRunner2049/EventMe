@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,7 @@ public class ExplorePage extends Fragment {
 //    Button event_typeButton;
     Button nameButton;
     Button dateButton;
+    String userInput;
 
 
     private static final String[] paths = {"item 1", "item 2", "item 3"};
@@ -136,82 +138,107 @@ public class ExplorePage extends Fragment {
         distButton = rootview.findViewById(R.id.Destination);
 
 
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
+        fb.readEvents(new FirebaseDatabaseHelper.DataStatus() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-
-                arrayAdapter.getFilter().filter(s);
-                return false;
-            }
-        });
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                cars.add("Volvo");
-//                cars.add("BMW");
-//                cars.add("Ford");
-//                cars.add("Mazda");
-
-//                for (int i= 0; i< cars.size(); ++i)
-//                {
-                Intent intent = new Intent(getContext(), resultsPage.class);
-                intent.putExtra("name_filter", event_id);
-                startActivity(intent);
-//                }
-
-            }
-        });
-
-        priceButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            public void DataIsLoaded(List<EventBox> events, List<String> keys) {
 
                 Intent intent = new Intent(getContext(), resultsPage.class);
-                intent.putExtra("price_filter",true);
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("events",(Serializable)events);
+                bundle.putSerializable("keys",(Serializable)keys);
+                intent.putExtra("events+keys", bundle);
 
+                Toast.makeText(getContext(), "Data is uploaded", Toast.LENGTH_SHORT).show();
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String s) {
+                        userInput = s;
+                        intent.putExtra("usersinput", userInput);
+                        startActivity(intent);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String s) {
+
+                        arrayAdapter.getFilter().filter(s);
+                        return false;
+                    }
+                });
+
+//                searchButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+////                cars.add("Volvo");
+////                cars.add("BMW");
+////                cars.add("Ford");
+////                cars.add("Mazda");
+//
+////                for (int i= 0; i< cars.size(); ++i)
+////                {
+//
+//                        intent.putExtra("name_filter", event_id);
+//                        startActivity(intent);
+////                }
+//
+//                    }
+//                });
+
+                priceButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        intent.putExtra("price_filter",true);
+                        startActivity(intent);
+
+                    }
+                });
+
+                nameButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        intent.putExtra("name_filter",true);
+                        startActivity(intent);
+
+                    }
+                });
+
+                dateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        intent.putExtra("date_filter",true);
+                        startActivity(intent);
+
+                    }
+                });
+
+                distButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        intent.putExtra("dist_filter",true);
+                        startActivity(intent);
+
+                    }
+                });
             }
-        });
 
-        nameButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getContext(), resultsPage.class);
-                intent.putExtra("name_filter",true);
-                startActivity(intent);
-
+            public void DataIsInserted() {
             }
-        });
 
-        dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getContext(), resultsPage.class);
-                intent.putExtra("date_filter",true);
-                startActivity(intent);
-
+            public void DataIsUpdated() {
             }
-        });
 
-        distButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getContext(), resultsPage.class);
-                intent.putExtra("dist_filter",true);
-                startActivity(intent);
-
+            public void DataIsDeleted() {
             }
         });
+
 
 
 

@@ -1,9 +1,12 @@
 package com.example.eventme;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventBox {
+public class EventBox implements Serializable {
 
     public EventBox() {}
 
@@ -130,6 +133,8 @@ public class EventBox {
     public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
+
+
 
 
 }

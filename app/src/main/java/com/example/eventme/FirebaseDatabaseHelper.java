@@ -40,6 +40,8 @@ public class FirebaseDatabaseHelper {
         void DataIsDeleted();
     }
 
+
+
     public FirebaseDatabaseHelper() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -72,17 +74,19 @@ public class FirebaseDatabaseHelper {
     }
 
 
-    public void readUsers(final DataStatus dataStatus) {
-        mReferenceEvents.addValueEventListener(new ValueEventListener() {
+    public void readUserEvents(final DataStatus dataStatus) {
+        currentUser = mAuth.getCurrentUser();
+        String uid = currentUser.getUid();
+        mReferenceUsers.child(uid).child("events").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                users.clear();
+                events.clear();
                 List<String> keys = new ArrayList<>();
                 //possible issue with datasnap, we might need to fix later
                 for (DataSnapshot keyNode : snapshot.getChildren()) {
                     keys.add(keyNode.getKey());
-                    UserBox user = keyNode.getValue(UserBox.class);
-                    users.add(user);
+                    EventBox event = keyNode.getValue(EventBox.class);
+                    events.add(event);
                 }
                 dataStatus.DataIsLoaded(events, keys);
             }
