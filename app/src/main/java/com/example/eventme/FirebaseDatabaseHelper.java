@@ -125,6 +125,20 @@ public class FirebaseDatabaseHelper {
                 });
     }
 
+    public void removeEventFromUser(final EventBox event, final DataStatus dataStatus)
+    {
+        currentUser = mAuth.getCurrentUser();
+        String userID = currentUser.getUid();
+        String eventID = event.getId();
+        mReferenceUsers.child(userID).child("events").child(eventID).setValue(null)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        dataStatus.DataIsDeleted();
+                    }
+                });
+    }
+
     public void updateUser(String key, UserBox user, final DataStatus dataStatus)
     {
         mReferenceUsers.child(key).setValue(user)

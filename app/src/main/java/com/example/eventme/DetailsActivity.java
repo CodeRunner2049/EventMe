@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.metrics.Event;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -75,42 +77,81 @@ public class DetailsActivity extends AppCompatActivity {
                     temporary = eventId;
                 }
 
-
                 String urlImage = temp.getImage_url();
-
                 imageView = findViewById(R.id.image_view1);
                 Glide.with(getApplicationContext()).load(urlImage).into(imageView);
 
-
-                String finalTemporary = temporary;
-                registerButton.setOnClickListener(new View.OnClickListener() {
+                fb.readUserEvents(new FirebaseDatabaseHelper.DataStatus() {
                     @Override
-                    public void onClick(View view) {
-
-                        currentUser = mAuth.getCurrentUser();
+                    public void DataIsLoaded(List<EventBox> events, List<String> keys) {
                         if (currentUser != null)
                         {
-                            fb.addEventToUser(temp, new FirebaseDatabaseHelper.DataStatus() {
-                                @Override
-                                public void DataIsLoaded(List<EventBox> events, List<String> keys) {}
-                                @Override
-                                public void DataIsInserted() {
-                                    Toast.makeText(DetailsActivity.this, "Added to registered events!", Toast.LENGTH_LONG).show();
-                                }
-                                @Override
-                                public void DataIsUpdated() {                                }
-                                @Override
-                                public void DataIsDeleted() {}
-                            });
+                            if (events.contains(temp))
+                            {
+                                registerButton.setText("Unregister");
+                                registerButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        currentUser = mAuth.getCurrentUser();
+
+                                            fb.addEventToUser(temp, new FirebaseDatabaseHelper.DataStatus() {
+                                                @Override
+                                                public void DataIsLoaded(List<EventBox> events, List<String> keys) {}
+                                                @Override
+                                                public void DataIsInserted() {
+                                                    Toast.makeText(DetailsActivity.this, "Added to registered events!", Toast.LENGTH_LONG).show();
+                                                }
+                                                @Override
+                                                public void DataIsUpdated() {                                }
+                                                @Override
+                                                public void DataIsDeleted() {}
+                                            });
+
+                                    }
+                                });
+                                hideKeyboard(DetailsActivity.this);
+                            }
+                            else
+                            {
+                                registerButton.setText("Register");
+                                registerButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        currentUser = mAuth.getCurrentUser();
+                                            fb.removeEventFromUser(temp, new FirebaseDatabaseHelper.DataStatus() {
+                                                @Override
+                                                public void DataIsLoaded(List<EventBox> events, List<String> keys) {}
+                                                @Override
+                                                public void DataIsInserted() {}
+                                                @Override
+                                                public void DataIsUpdated() {                                }
+                                                @Override
+                                                public void DataIsDeleted() {
+                                                    Toast.makeText(DetailsActivity.this, "Unregistered from event!", Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                        }
+                                });
+                                hideKeyboard(DetailsActivity.this);
+                            }
                         }
                         else
                         {
                             Toast.makeText(DetailsActivity.this, "Please login to register", Toast.LENGTH_LONG).show();
                         }
                     }
-                });
-                hideKeyboard(DetailsActivity.this);
 
+                    @Override
+                    public void DataIsInserted() {}
+
+                    @Override
+                    public void DataIsUpdated() {}
+
+                    @Override
+                    public void DataIsDeleted() {}
+                });
             }
 
             @Override
