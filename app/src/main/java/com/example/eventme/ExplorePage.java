@@ -44,8 +44,8 @@ public class ExplorePage extends Fragment {
     Button searchButton;
 
     Button priceButton;
-    Button distanceButton;
-    Button event_typeButton;
+    Button distButton;
+//    Button event_typeButton;
     Button nameButton;
     Button dateButton;
 
@@ -133,6 +133,7 @@ public class ExplorePage extends Fragment {
 
         nameButton = rootview.findViewById(R.id.name);
         dateButton = rootview.findViewById(R.id.date);
+        distButton = rootview.findViewById(R.id.Destination);
 
 
 
@@ -196,6 +197,17 @@ public class ExplorePage extends Fragment {
 
                 Intent intent = new Intent(getContext(), resultsPage.class);
                 intent.putExtra("date_filter",true);
+                startActivity(intent);
+
+            }
+        });
+
+        distButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getContext(), resultsPage.class);
+                intent.putExtra("dist_filter",true);
                 startActivity(intent);
 
             }

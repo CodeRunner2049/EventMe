@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
@@ -31,6 +32,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
@@ -50,10 +53,17 @@ public class mapPage extends Fragment{
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<Marker> markers = new ArrayList<>();
     private FusedLocationProviderClient fusedLocationClient;
+
     private Location currLocation;
     FragmentMapPageBinding binding;
     SupportMapFragment mapFragment;
     private static final int REQUEST_CODE = 101;
+
+    private GoogleMap map;
+    private Location lastKnownLocation;
+    private static final int DEFAULT_ZOOM = 15;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean locationPermissionGranted;
 
 
 
@@ -74,6 +84,14 @@ public class mapPage extends Fragment{
         @SuppressLint("MissingPermission")
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            map = googleMap;
+
+            // Turn on the My Location layer and the related control on the map.
+            updateLocationUI();
+
+            // Get the current location of the device and set the position of the map.
+            getDeviceLocation();
+
 
             FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
             fb.readEvents(new FirebaseDatabaseHelper.DataStatus() {
@@ -110,10 +128,12 @@ public class mapPage extends Fragment{
                 public boolean onMarkerClick(@NonNull Marker marker) {
 
                     String markertitle = marker.getTitle();
-                    Intent i = new Intent(getContext(), DetailsActivity.class);
-                    i.putExtra("eventId", markertitle);
-                    startActivity(i);
-
+                    if (!markertitle.equals("Your current location!"))
+                    {
+                        Intent i = new Intent(getContext(), DetailsActivity.class);
+                        i.putExtra("eventId", markertitle);
+                        startActivity(i);
+                    }
                     return false;
                 }
             });
@@ -122,21 +142,30 @@ public class mapPage extends Fragment{
 //            LatLng currLoci = new LatLng(loci.getLatitude(), loci.getLongitude());
 //            googleMap.addMarker(new MarkerOptions().position(currLoci).title("Your current location!"));
 
-            fusedLocationClient.getLastLocation().addOnSuccessListener((Activity) getContext(), new OnSuccessListener<Location>() {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 LatLng currLoci = new LatLng(location.getLatitude(), location.getLongitude());
                                 googleMap.addMarker(new MarkerOptions().position(currLoci).title("Your current location!"));
+
+                                //intent: sending current emulator location to results page
+                                Intent intent = new Intent(getContext(), resultsPage.class);
+                                intent.putExtra("curr_loc", currLoci);
+                                startActivity(intent);
                             }
                         }
 
-                    });
+                    }).addOnFailureListener(new OnFailureListener() {
+                         @Override
+                         public void onFailure(@NonNull Exception e) {
+                             Toast.makeText(getContext(), "Can't get current location: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                         }
+                     });
 
 
-
-            //fetchLastLocation();
+                    //fetchLastLocation();
 
         }
     };
@@ -147,7 +176,8 @@ public class mapPage extends Fragment{
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_map_page, container, false);
+        View rootview = inflater.inflate(R.layout.fragment_map_page, container, false);
+        return rootview;
     }
 
     @Override
@@ -166,39 +196,108 @@ public class mapPage extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity().getApplicationContext());
+        /* check for this */
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(callback);
+        }
+
 //        fetchLastLocation();
     }
 
-    private void fetchLastLocation() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]
-                    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) { locationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        locationPermissionGranted = false;
+        if (requestCode
+                == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        updateLocationUI();
+    }
+
+    private void updateLocationUI() {
+        if (map == null) {
             return;
         }
-        Task<Location> task = fusedLocationClient.getLastLocation();
-        task.addOnSuccessListener(location -> {
-            if (location != null) {
-                currLocation = location;
-                UpdateCurrentLocation();
-                Toast.makeText(getContext(), currLocation.getLatitude()
-                        + "" + currLocation.getLongitude(), Toast.LENGTH_SHORT).show();
-                SupportMapFragment supportMapFragment = (SupportMapFragment)
-                        getChildFragmentManager().findFragmentById(R.id.map);
-                supportMapFragment.getMapAsync((OnMapReadyCallback) mapPage.this);
+        try {
+            if (locationPermissionGranted) {
+                map.setMyLocationEnabled(true);
+                map.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                map.setMyLocationEnabled(false);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+                lastKnownLocation = null;
+                getLocationPermission();
             }
-        });
-    }
-    private void UpdateCurrentLocation() {
-        LatLng latLng = new LatLng(currLocation.getLatitude(),
-                currLocation.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng)
-                .title("Here I am!");
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
-        googleMap.addMarker(markerOptions);
+        } catch (SecurityException e)  {
+            Toast.makeText(getContext(), "Exception " + e.getMessage(), Toast.LENGTH_LONG).show();
+//            Log.e("Exception: %s", e.getMessage());
+        }
     }
 
-
-
+    private void getDeviceLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        try {
+            if (locationPermissionGranted) {
+                Task<Location> locationResult = fusedLocationClient.getLastLocation();
+                locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful()) {
+                            // Set the map's camera position to the current location of the device.
+                            lastKnownLocation = task.getResult();
+                            if (lastKnownLocation != null) {
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(lastKnownLocation.getLatitude(),
+                                                lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "Current location is null.", Toast.LENGTH_LONG).show();
+//                            Log.d(TAG, "Current location is null. Using defaults.");
+//                            Log.e(TAG, "Exception: %s", task.getException());
+//                            map.moveCamera(CameraUpdateFactory
+//                                    .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
+//                            map.getUiSettings().setMyLocationButtonEnabled(false);
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e)  {
+            Toast.makeText(getContext(), "Exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
 }
+
+
+
+
+
+
