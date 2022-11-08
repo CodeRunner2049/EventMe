@@ -32,6 +32,8 @@ Suggestions:
 - Power off the AVD emulator
 - Run again and wait for the app to load
 - Restart Computer
+- Improve Internet Connection Speed
+
 
 19. IMPORTANT: You need to use the back arrow on the emulator to go back when navigating between the different popup pages. 
 
@@ -46,7 +48,6 @@ Misc.
 Dining
 Sports
 Party
-- Improve Internet Connection Speed
 
 
 
