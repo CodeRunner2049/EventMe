@@ -37,7 +37,7 @@ public class LoginPage extends AppCompatActivity {
 
     // creating variables for our edit text and buttons.
     private EditText userNameEdt, passwordEdt;
-    private Button loginBtn, registerBtn;
+    private Button loginBtn, registerBtn, guestBtn;
     private FirebaseAuth mAuth;
     FirebaseUser currentUser;
 
@@ -52,6 +52,7 @@ public class LoginPage extends AppCompatActivity {
         userNameEdt = findViewById(R.id.idEdtUserName);
         passwordEdt = findViewById(R.id.idEdtPassword);
         loginBtn = findViewById(R.id.idBtnLogin);
+        guestBtn = findViewById(R.id.guestButton);
 
         // adding on click listener for our button.
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +96,14 @@ public class LoginPage extends AppCompatActivity {
                 Intent i = new Intent(LoginPage.this, registerPage.class);
                 startActivity(i);
 //                Navigation.findNavController().navigate(R.id.action_loginPage_to_registerPage);
+            }
+        });
+
+        guestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginPage.this, MainActivity.class);
+                startActivity(i);
             }
         });
     }

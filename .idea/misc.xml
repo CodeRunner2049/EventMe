@@ -3,33 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../layout/custom_preview.xml" value="0.11604439959636731" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/drawable/avatar.xml" value="0.1725" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/drawable/explore.xml" value="0.1725" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/drawable/map.xml" value="0.1725" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/activity_details.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/activity_login_page.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/activity_main.xml" value="0.19947916666666668" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/activity_register_page.xml" value="0.2222222222222222" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_explore_page.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_login_page.xml" value="0.12907608695652173" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_map_page.xml" value="0.15989583333333332" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_profile_page.xml" value="0.2222222222222222" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/fragment_register_page.xml" value="0.1308876811594203" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/login_page.xml" value="0.15885416666666666" />
+        <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/layout/recycle_item.xml" value="0.4" />
         <entry key="..\:/Users/moura/AndroidStudioProjects/EventME/app/src/main/res/menu/bottom_nav.xml" value="0.149609375" />
-        <entry key="app/src/main/res/layout/activity_details.xml" value="0.16210739614994935" />
-        <entry key="app/src/main/res/layout/activity_login_page.xml" value="0.17135416666666667" />
-        <entry key="app/src/main/res/layout/activity_register_page.xml" value="0.19479166666666667" />
-        <entry key="app/src/main/res/layout/activity_results_page.xml" value="0.16210739614994935" />
         <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.12771739130434784" />
-        <entry key="app/src/main/res/layout/expandable_list_group.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/expandable_list_item.xml" value="0.209375" />
         <entry key="app/src/main/res/layout/fragment_explore_page.xml" value="0.2304087320963542" />
         <entry key="app/src/main/res/layout/fragment_map_page.xml" value="0.12771739130434784" />
-        <entry key="app/src/main/res/layout/fragment_one.xml" value="0.24909420289855072" />
-        <entry key="app/src/main/res/layout/fragment_page_page.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/fragment_profile_page.xml" value="0.19479166666666667" />
-        <entry key="app/src/main/res/layout/fragment_sample.xml" value="0.16893115942028986" />
-        <entry key="app/src/main/res/layout/fragmentpager.xml" value="0.12952898550724637" />
         <entry key="app/src/main/res/layout/listview_item_explore.xml" value="0.17135416666666667" />
-        <entry key="app/src/main/res/layout/page1.xml" value="0.17135416666666667" />
-        <entry key="app/src/main/res/layout/page2.xml" value="0.13703703703703704" />
-        <entry key="app/src/main/res/layout/page3.xml" value="0.13703703703703704" />
-        <entry key="app/src/main/res/layout/recycle_item.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.19479166666666667" />
       </map>
     </option>
