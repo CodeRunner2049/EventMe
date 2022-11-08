@@ -151,9 +151,9 @@ public class mapPage extends Fragment{
                                 googleMap.addMarker(new MarkerOptions().position(currLoci).title("Your current location!"));
 
                                 //intent: sending current emulator location to results page
-                                Intent intent = new Intent(getContext(), resultsPage.class);
-                                intent.putExtra("curr_loc", currLoci);
-                                startActivity(intent);
+//                                Intent intent = new Intent(getContext(), resultsPage.class);
+//                                intent.putExtra("curr_loc", currLoci);
+//                                startActivity(intent);
                             }
                         }
 

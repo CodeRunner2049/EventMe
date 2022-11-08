@@ -57,8 +57,8 @@ public class resultsPage extends AppCompatActivity {
         date_bundle = getIntent().getExtras();
         date_filter = date_bundle.getBoolean("date_filter");
 
-        curr_loc_bundle = getIntent().getExtras();
-        curr_loc_flag = curr_loc_bundle.getBoolean("curr_loc");
+//        curr_loc_bundle = getIntent().getExtras();
+//        curr_loc_flag = curr_loc_bundle.getBoolean("curr_loc");
 
         dist_bundle = getIntent().getExtras();
         dist_filter = date_bundle.getBoolean("dist_filter");
@@ -127,10 +127,10 @@ public class resultsPage extends AppCompatActivity {
                     });
                 }
 
-                if (curr_loc_flag && dist_filter) //current location and destination location found
-                {
-
-                }
+//                if (curr_loc_flag && dist_filter) //current location and destination location found
+//                {
+//
+//                }
 
 
 
