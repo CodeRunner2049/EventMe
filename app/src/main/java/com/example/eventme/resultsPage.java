@@ -128,9 +128,23 @@ public class resultsPage extends AppCompatActivity {
         if (userInput != null)
         {
 
-            String[] s = {"z", "asxdf", "abasdf", "abcasdf", "b", "bc", "bcd", "c"};
+            //String[] s = {"z", "asxdf", "abasdf", "abcasdf", "b", "bc", "bcd", "c"};
+
+            ArrayList<String> sorted_strings = new ArrayList<>();
+            for(EventBox e: sorted_events){
+                sorted_strings.add(e.getName());
+            }
+
+            String[] s = new String[sorted_strings.size()];
+            for(int i = 0; i < sorted_events.size();i++){
+                s[i] = sorted_strings.get(i);
+            }
+
             Arrays.sort(s, new MyComparator(userInput));
             System.out.println(Arrays.toString(s));
+
+             new RecyclerView_Config().setConfig(mRecyclerView,resultsPage.this, sorted_events, keys);
+            Toast.makeText(getApplicationContext(), "Data was loaded", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -139,4 +153,5 @@ public class resultsPage extends AppCompatActivity {
 
 
     }
+
 }
