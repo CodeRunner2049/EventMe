@@ -167,12 +167,15 @@ public class profilePage extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     //possible issue with datasnap, we might need to fix later
-                    DataSnapshot keyNode = snapshot.child(uid);
-                    UserBox user = keyNode.getValue(UserBox.class);
-                    nameEditText.setText(user.getName());
+                    if (getContext() != null)
+                    {
+                        DataSnapshot keyNode = snapshot.child(uid);
+                        UserBox user = keyNode.getValue(UserBox.class);
+                        nameEditText.setText(user.getName());
 //                    avatar.setImageURI(Uri.parse(user.getImage_url()));
-                    Glide.with(getContext()).load(user.getImage_url()).into(avatar);
-                    birthday.setText(user.getBirthday());
+                        Glide.with(getContext()).load(user.getImage_url()).into(avatar);
+                        birthday.setText(user.getBirthday());
+                    }
                 }
 
                 @Override
@@ -254,12 +257,16 @@ public class profilePage extends Fragment {
                     fb.readUserEvents(new FirebaseDatabaseHelper.DataStatus() {
                         @Override
                         public void DataIsLoaded(List<EventBox> events, List<String> keys) {
-                            Intent intent = new Intent(getContext(), resultsPage.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("events",(Serializable)events);
-                            bundle.putSerializable("keys",(Serializable)keys);
-                            intent.putExtra("events+keys", bundle);
-                            startActivity(intent);
+                            if (getContext() != null)
+                            {
+                                Intent intent = new Intent(getContext(), resultsPage.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("events",(Serializable)events);
+                                bundle.putSerializable("keys",(Serializable)keys);
+                                intent.putExtra("events+keys", bundle);
+                                startActivity(intent);
+                            }
+
                         }
 
                         @Override

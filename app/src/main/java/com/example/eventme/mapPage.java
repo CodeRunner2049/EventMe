@@ -149,7 +149,6 @@ public class mapPage extends Fragment{
                             if (location != null) {
                                 LatLng currLoci = new LatLng(location.getLatitude(), location.getLongitude());
                                 googleMap.addMarker(new MarkerOptions().position(currLoci).title("Your current location!"));
-
                                 //intent: sending current emulator location to results page
 //                                Intent intent = new Intent(getContext(), resultsPage.class);
 //                                intent.putExtra("curr_loc", currLoci);
@@ -260,12 +259,14 @@ public class mapPage extends Fragment{
         }
     }
 
-    private void getDeviceLocation() {
+    private LatLng getDeviceLocation() {
         /*
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
          */
         try {
+//            LatLng latLng;
+//            latLng.
             if (locationPermissionGranted) {
                 Task<Location> locationResult = fusedLocationClient.getLastLocation();
                 locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
@@ -275,9 +276,11 @@ public class mapPage extends Fragment{
                             // Set the map's camera position to the current location of the device.
                             lastKnownLocation = task.getResult();
                             if (lastKnownLocation != null) {
-                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                        new LatLng(lastKnownLocation.getLatitude(),
-                                                lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                                LatLng latlng = new LatLng(lastKnownLocation.getLatitude(),
+                                        lastKnownLocation.getLongitude());
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng
+                                        , DEFAULT_ZOOM));
+//                                return latlng;
                             }
                         } else {
                             Toast.makeText(getContext(), "Current location is null.", Toast.LENGTH_LONG).show();
@@ -293,6 +296,7 @@ public class mapPage extends Fragment{
         } catch (SecurityException e)  {
             Toast.makeText(getContext(), "Exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
+        return null;
     }
 }
 
