@@ -1,29 +1,26 @@
 package com.example.eventme;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationRequest;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.example.eventme.databinding.FragmentMapPageBinding;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,6 +35,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class mapPage extends Fragment{
@@ -49,23 +48,26 @@ public class mapPage extends Fragment{
     private String mParam2;
 
     private GoogleMap googleMap;
+    ImageView transparentImageView;
+    RecyclerView mRecyclerView;
     private MarkerOptions options = new MarkerOptions();
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<Marker> markers = new ArrayList<>();
     private FusedLocationProviderClient fusedLocationClient;
 
     private Location currLocation;
-    FragmentMapPageBinding binding;
+//    FragmentMapPageBinding binding;
     SupportMapFragment mapFragment;
     private static final int REQUEST_CODE = 101;
 
     private GoogleMap map;
+    private ScrollView mScrollView;
     private Location lastKnownLocation;
     private static final int DEFAULT_ZOOM = 5;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
 
-
+    ArrayList<EventBox> sorted_events;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -84,6 +86,7 @@ public class mapPage extends Fragment{
         @SuppressLint("MissingPermission")
         @Override
         public void onMapReady(GoogleMap googleMap) {
+//            map = ((WorkaroundMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
             map = googleMap;
 
             // Turn on the My Location layer and the related control on the map.
@@ -106,7 +109,15 @@ public class mapPage extends Fragment{
                         markers.add(marker);
                     }
 
+                    sorted_events = (ArrayList<EventBox>) events;
 
+                    Collections.sort(sorted_events,new Comparator<EventBox>() {
+                        public int compare(EventBox s1, EventBox s2) {
+                            return s1.getCost() - s2.getCost();
+                        }
+                    });
+
+                    new RecyclerView_Config().setConfig(mRecyclerView, getContext(), sorted_events, keys);
                 }
 
                 @Override
@@ -176,14 +187,20 @@ public class mapPage extends Fragment{
                              @Nullable Bundle savedInstanceState) {
 
         View rootview = inflater.inflate(R.layout.fragment_map_page, container, false);
+        mScrollView = (ScrollView) rootview.findViewById(R.id.scrollView);
+        mRecyclerView = (RecyclerView) rootview.findViewById(R.id.mRecyclerView);
+
         return rootview;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }

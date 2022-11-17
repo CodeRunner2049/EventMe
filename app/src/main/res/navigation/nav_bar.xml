@@ -8,17 +8,17 @@
     <fragment
         android:id="@+id/explorePage"
         android:name="com.example.eventme.ExplorePage"
-        android:label="fragment_explore_page"
+        android:label="EventMe - Explore"
         tools:layout="@layout/fragment_explore_page" />
     <fragment
         android:id="@+id/mapPage"
         android:name="com.example.eventme.mapPage"
-        android:label="fragment_map_page"
+        android:label="EventMe - Map"
         tools:layout="@layout/fragment_map_page" />
 
     <fragment
         android:id="@+id/profilePage"
         android:name="com.example.eventme.profilePage"
-        android:label="fragment_profile_page"
+        android:label="EventMe - Profile"
         tools:layout="@layout/fragment_profile_page" />
 </navigation>

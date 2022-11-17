@@ -216,60 +216,7 @@ public class ExplorePage extends Fragment {
             public void DataIsDeleted() {
             }
         });
-
-
-
-
-//        ExpandableListView expandableListView = rootview.findViewById(R.id.expandableListView);
-//        HashMap<String, List<String>> item = new HashMap<>();
-//        ArrayList<String> Groups = new ArrayList<>();
-//        Groups.add("Lowest Price");
-//        Groups.add("Highest Price");
-//        Groups.add("Earliest Date");
-//        Groups.add("Latest Date");
-//        Groups.add("Alphabetically");
-//        Groups.add("Type of Event");
-//        item.put("Filter", Groups);
-//        MyExpandableListAdapter adapter = new MyExpandableListAdapter(item);
-//        expandableListView.setAdapter(adapter);
-
-//        View view = inflater.inflate(R.layout.fragment_explore_page, container, false);
-//        Spinner spinner = view.findViewById(R.id.spinner1);
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, courses);
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(dataAdapter);
-
-
         return rootview;
     }
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        // TODO Add your menu entries here
-//
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.layout.fragment_explore_page, menu);
-//
-//        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem menuItem) {
-////                Toast.makeText(ExplorePage.this, "",Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getContext(), "Search is Expanded", Toast.LENGTH_SHORT).show();
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-//                Toast.makeText(getContext(), "Search is Collapsed", Toast.LENGTH_SHORT).show();
-//                return true;
-//            }
-//        };
-//        menu.findItem(R.layout.fragment_explore_page).setOnActionExpandListener(onActionExpandListener);
-//
-//    }
-
-
-
-
 
 }
