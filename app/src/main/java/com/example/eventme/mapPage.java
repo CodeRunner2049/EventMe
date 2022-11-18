@@ -54,11 +54,6 @@ public class mapPage extends Fragment{
     private ArrayList<Marker> markers = new ArrayList<>();
     private FusedLocationProviderClient fusedLocationClient;
 
-    private Location currLocation;
-    FragmentMapPageBinding binding;
-    SupportMapFragment mapFragment;
-    private static final int REQUEST_CODE = 101;
-
     private GoogleMap map;
     private Location lastKnownLocation;
     private static final int DEFAULT_ZOOM = 5;
@@ -259,11 +254,12 @@ public class mapPage extends Fragment{
         }
     }
 
-    private LatLng getDeviceLocation() {
+    public LatLng getDeviceLocation() {
         /*
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
          */
+        LatLng[] latlng = new LatLng[1];
         try {
 //            LatLng latLng;
 //            latLng.
@@ -276,23 +272,20 @@ public class mapPage extends Fragment{
                             // Set the map's camera position to the current location of the device.
                             lastKnownLocation = task.getResult();
                             if (lastKnownLocation != null) {
-                                LatLng latlng = new LatLng(lastKnownLocation.getLatitude(),
+                                latlng[0] = new LatLng(lastKnownLocation.getLatitude(),
                                         lastKnownLocation.getLongitude());
-                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng[0]
                                         , DEFAULT_ZOOM));
 //                                return latlng;
                             }
                         } else {
                             Toast.makeText(getContext(), "Current location is null.", Toast.LENGTH_LONG).show();
-//                            Log.d(TAG, "Current location is null. Using defaults.");
-//                            Log.e(TAG, "Exception: %s", task.getException());
-//                            map.moveCamera(CameraUpdateFactory
-//                                    .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
-//                            map.getUiSettings().setMyLocationButtonEnabled(false);
+//
                         }
                     }
                 });
             }
+            return latlng[0];
         } catch (SecurityException e)  {
             Toast.makeText(getContext(), "Exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
