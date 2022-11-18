@@ -74,6 +74,8 @@ public class FirebaseDatabaseHelper {
     }
 
 
+
+
     public void readUserEvents(final DataStatus dataStatus) {
         currentUser = mAuth.getCurrentUser();
         String uid = currentUser.getUid();
@@ -110,6 +112,30 @@ public class FirebaseDatabaseHelper {
                     }
                 });
     }
+
+//    public UserBox readUserDetails(String userId, final DataStatus dataStatus)
+//    {
+//        currentUser = mAuth.getCurrentUser();
+//        String userID = currentUser.getUid();
+////        mReferenceUsers.child(uid).child("events").addValueEventListener(new ValueEventListener() {
+////            @Override
+////            public void onDataChange(@NonNull DataSnapshot snapshot) {
+////                events.clear();
+////                List<String> keys = new ArrayList<>();
+////                //possible issue with datasnap, we might need to fix later
+////                for (DataSnapshot keyNode : snapshot.getChildren()) {
+////                    keys.add(keyNode.getKey());
+////                    EventBox event = keyNode.getValue(EventBox.class);
+////                    events.add(event);
+////                }
+////                dataStatus.DataIsLoaded(events, keys);
+////            }
+////
+////            @Override
+////            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//    }
 
     public void addEventToUser(final EventBox event, final DataStatus dataStatus)
     {
@@ -161,13 +187,4 @@ public class FirebaseDatabaseHelper {
                 });
     }
 
-
-
-    public List<EventBox> getEvents() {
-        return events;
-    }
-
-    public List<UserBox> getUsers() {
-        return users;
-    }
 }
