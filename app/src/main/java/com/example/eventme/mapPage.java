@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.lang.Math;
 
 public class mapPage extends Fragment{
 
@@ -95,7 +96,6 @@ public class mapPage extends Fragment{
             // Get the current location of the device and set the position of the map.
             getDeviceLocation();
 
-
             FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
             fb.readEvents(new FirebaseDatabaseHelper.DataStatus() {
                 @Override
@@ -111,13 +111,35 @@ public class mapPage extends Fragment{
 
                     sorted_events = (ArrayList<EventBox>) events;
 
-                    Collections.sort(sorted_events,new Comparator<EventBox>() {
-                        public int compare(EventBox s1, EventBox s2) {
-                            return s1.getCost() - s2.getCost();
+                    fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                LatLng currLoci = new LatLng(location.getLatitude(), location.getLongitude());
+                                googleMap.addMarker(new MarkerOptions().position(currLoci).title("Your current location!"));
+
+                                Collections.sort(sorted_events,new Comparator<EventBox>() {
+                                    public int compare(EventBox s1, EventBox s2) {
+                                        return (int)(pythagoreanDistance(s2.getLatitude(), location.getLatitude(), s2.getLongitude(), location.getLongitude())
+                                        - pythagoreanDistance(s1.getLatitude(), location.getLatitude(), s1.getLongitude(), location.getLongitude()));
+                                    }
+                                });
+
+                                new RecyclerView_Config().setConfig(mRecyclerView, getContext(), sorted_events, keys);
+                                //intent: sending current emulator location to results page
+//                                Intent intent = new Intent(getContext(), resultsPage.class);
+//                                intent.putExtra("curr_loc", currLoci);
+//                                startActivity(intent);
+                            }
+                        }
+
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), "Can't get current location: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
-
-                    new RecyclerView_Config().setConfig(mRecyclerView, getContext(), sorted_events, keys);
                 }
 
                 @Override
@@ -152,29 +174,6 @@ public class mapPage extends Fragment{
 //            Location loci = fusedLocationClient.getLastLocation().getResult();
 //            LatLng currLoci = new LatLng(loci.getLatitude(), loci.getLongitude());
 //            googleMap.addMarker(new MarkerOptions().position(currLoci).title("Your current location!"));
-
-            fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                LatLng currLoci = new LatLng(location.getLatitude(), location.getLongitude());
-                                googleMap.addMarker(new MarkerOptions().position(currLoci).title("Your current location!"));
-                                //intent: sending current emulator location to results page
-//                                Intent intent = new Intent(getContext(), resultsPage.class);
-//                                intent.putExtra("curr_loc", currLoci);
-//                                startActivity(intent);
-                            }
-                        }
-
-                    }).addOnFailureListener(new OnFailureListener() {
-                         @Override
-                         public void onFailure(@NonNull Exception e) {
-                             Toast.makeText(getContext(), "Can't get current location: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                         }
-                     });
-
-
                     //fetchLastLocation();
 
         }
@@ -314,6 +313,18 @@ public class mapPage extends Fragment{
             Toast.makeText(getContext(), "Exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return null;
+    }
+
+    public double pythagoreanDistance(
+            double x1,
+            double y1,
+            double x2,
+            double y2) {
+
+        double ac = Math.abs(y2 - y1);
+        double cb = Math.abs(x2 - x1);
+
+        return Math.hypot(ac, cb);
     }
 }
 
