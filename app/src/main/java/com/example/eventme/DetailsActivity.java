@@ -42,6 +42,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     TextView markertext;
     List<EventBox> listOfEvents;
+    List<EventBox> userEvents;
     private ImageView imageView;
     private Button registerButton;
     private FirebaseAuth mAuth;
@@ -55,13 +56,14 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         markertext = (TextView) findViewById(R.id.mArker);
         mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         registerButton = findViewById(R.id.register);
+        registerButton.setText("Register For Event");
 
         String eventId = getIntent().getStringExtra("eventId");
+        fb = new FirebaseDatabaseHelper();
 
-
-        FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
         fb.readEvents(new FirebaseDatabaseHelper.DataStatus() {
             @Override
             public void DataIsLoaded(List<EventBox> events, List<String> keys) {
@@ -82,92 +84,44 @@ public class DetailsActivity extends AppCompatActivity {
                 imageView = findViewById(R.id.image_view1);
                 Glide.with(getApplicationContext()).load(urlImage).into(imageView);
 
-                registerButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(DetailsActivity.this, "Please login to register", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(DetailsActivity.this, LoginPage.class);
-                        startActivity(intent);
-                    }
-                });
-
-                currentUser = mAuth.getCurrentUser();
                 if (currentUser != null) {
                     fb.readUserEvents(new FirebaseDatabaseHelper.DataStatus() {
                         @Override
                         public void DataIsLoaded(List<EventBox> events, List<String> keys) {
-                            if (!keys.contains(temp.getId())) {
+                            userEvents = events;
+                            if (!containsEvent(temp.getId()))
+                            {
                                 registerButton.setText("Register for Event");
-                                registerButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-
-                                        currentUser = mAuth.getCurrentUser();
-                                        fb.addEventToUser(temp, new FirebaseDatabaseHelper.DataStatus() {
-                                            @Override
-                                            public void DataIsLoaded(List<EventBox> events, List<String> keys) {
-                                            }
-
-                                            @Override
-                                            public void DataIsInserted() {
-                                                Toast.makeText(DetailsActivity.this, "Added to registered events!", Toast.LENGTH_LONG).show();
-                                            }
-
-                                            @Override
-                                            public void DataIsUpdated() {
-                                            }
-
-                                            @Override
-                                            public void DataIsDeleted() {
-                                            }
-                                        });
-
-                                    }
-                                });
-                                hideKeyboard(DetailsActivity.this);
-                            } else {
-                                registerButton.setText("Unregister from Event");
-                                registerButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-
-                                        currentUser = mAuth.getCurrentUser();
-                                        fb.removeEventFromUser(temp, new FirebaseDatabaseHelper.DataStatus() {
-                                            @Override
-                                            public void DataIsLoaded(List<EventBox> events, List<String> keys) {
-                                            }
-
-                                            @Override
-                                            public void DataIsInserted() {
-                                            }
-
-                                            @Override
-                                            public void DataIsUpdated() {
-                                            }
-
-                                            @Override
-                                            public void DataIsDeleted() {
-                                                Toast.makeText(DetailsActivity.this, "Unregistered from event!", Toast.LENGTH_LONG).show();
-                                            }
-                                        });
-                                    }
-                                });
-                                hideKeyboard(DetailsActivity.this);
+                                registerForEvent(temp);
                             }
-
+                            else
+                            {
+                                registerButton.setText("Unregister from Event");
+                                unregisterFromEvent(temp);
+                            }
                         }
-
-
                         @Override
-                        public void DataIsInserted() {
-                        }
-
-                        @Override
-                        public void DataIsUpdated() {
+                        public void DataIsInserted () {
                         }
 
                         @Override
-                        public void DataIsDeleted() {
+                        public void DataIsUpdated () {
+                        }
+
+                        @Override
+                        public void DataIsDeleted () {
+                        }
+                    });
+
+                }
+                else
+                {
+                    registerButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(DetailsActivity.this, "Please login to register", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(DetailsActivity.this, LoginPage.class);
+                            startActivity(intent);
                         }
                     });
                 }
@@ -185,11 +139,83 @@ public class DetailsActivity extends AppCompatActivity {
             public void DataIsDeleted() {
             }
         });
+    }
 
+    public void registerForEvent(final EventBox event)
+    {
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                currentUser = mAuth.getCurrentUser();
+                if (containsDate(event.getDate()))
+                {
+                    Toast.makeText(DetailsActivity.this, "Event Conflict! Are you sure you want to register?", Toast.LENGTH_LONG).show();
+                    registerButton.setText("OK!");
+                    registerButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            addEvent(event);
+                        }
+                    });
+                }
+                else
+                {
+                    addEvent(event);
+                }
+            }
+        });
+    }
 
+    public void addEvent(EventBox event)
+    {
+        fb.addEventToUser(event, new FirebaseDatabaseHelper.DataStatus() {
+            @Override
+            public void DataIsLoaded(List<EventBox> events, List<String> keys) {
+            }
 
+            @Override
+            public void DataIsInserted() {
+                Toast.makeText(DetailsActivity.this, "Added to registered events!", Toast.LENGTH_LONG).show();
+            }
 
+            @Override
+            public void DataIsUpdated() {
+            }
+
+            @Override
+            public void DataIsDeleted() {
+            }
+        });
+    }
+
+    public void unregisterFromEvent(EventBox event)
+    {
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                currentUser = mAuth.getCurrentUser();
+                fb.removeEventFromUser(event, new FirebaseDatabaseHelper.DataStatus() {
+                    @Override
+                    public void DataIsLoaded(List<EventBox> events, List<String> keys) {
+                    }
+
+                    @Override
+                    public void DataIsInserted() {
+                    }
+
+                    @Override
+                    public void DataIsUpdated() {
+                    }
+
+                    @Override
+                    public void DataIsDeleted() {
+                        Toast.makeText(DetailsActivity.this, "Unregistered from event!", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
     }
     public static void hideKeyboard(@NonNull Activity activity) {
         // Check if no view has focus:
@@ -198,5 +224,29 @@ public class DetailsActivity extends AppCompatActivity {
             InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    public boolean containsEvent(String eventID)
+    {
+        for (EventBox event : userEvents)
+        {
+            if (event.getId().equals(eventID))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsDate(String datetime)
+    {
+        for (EventBox event : userEvents)
+        {
+            if (event.getDate().equals(datetime))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

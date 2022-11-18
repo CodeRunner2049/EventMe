@@ -4,17 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.media.metrics.Event;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class resultsPage extends AppCompatActivity {
 
@@ -47,7 +42,7 @@ public class resultsPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_page);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
 
         class MyComparator implements Comparator<String> {
 
@@ -104,6 +99,7 @@ public class resultsPage extends AppCompatActivity {
                     return s1.getCost() - s2.getCost();
                 }
             });
+            new RecyclerView_Config().setConfig(mRecyclerView,resultsPage.this, sorted_events, keys);
         }
 
         if (name_filter)
@@ -115,6 +111,7 @@ public class resultsPage extends AppCompatActivity {
                         return object1.getName().compareTo(object2.getName());
                     }
                 });
+                new RecyclerView_Config().setConfig(mRecyclerView,resultsPage.this, sorted_events, keys);
             }
         }
 
@@ -126,6 +123,7 @@ public class resultsPage extends AppCompatActivity {
                     return o1.getDate().compareTo(o2.getDate());
                 }
             });
+            new RecyclerView_Config().setConfig(mRecyclerView,resultsPage.this, sorted_events, keys);
         }
 
         if (userInput != null)
