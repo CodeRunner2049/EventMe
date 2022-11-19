@@ -40,7 +40,7 @@ public class FilterByPriceTest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(500);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -65,10 +65,12 @@ public class FilterByPriceTest {
             e.printStackTrace();
         }
 
-        ViewInteraction textView = onView(withId(R.id.Cost)).check(matches(withText("0")));
-        ViewInteraction textView1 = onView(withId(R.id.Cost)).check(matches(withText("500")));
-
-
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.Cost), withText("0"),
+                        withParent(allOf(withId(R.id.recycle_item),
+                                withParent(withId(R.id.mRecyclerView)))),
+                        isDisplayed()));
+        textView.check(matches(withText("0")));
     }
 
     private static Matcher<View> childAtPosition(

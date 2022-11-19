@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,6 +75,8 @@ public class FirebaseDatabaseHelper {
     }
 
 
+
+
     public void readUserEvents(final DataStatus dataStatus) {
         currentUser = mAuth.getCurrentUser();
         String uid = currentUser.getUid();
@@ -109,6 +112,29 @@ public class FirebaseDatabaseHelper {
                         dataStatus.DataIsInserted();
                     }
                 });
+    }
+
+    public UserBox readUserDetails()
+    {
+        ArrayList<UserBox> users = new ArrayList<>();
+        currentUser = mAuth.getCurrentUser();
+        String uid = currentUser.getUid();
+        mReferenceUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //possible issue with datasnap, we might need to fix later
+                DataSnapshot keyNode = snapshot.child(uid);
+                users.add(keyNode.getValue(UserBox.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        if (!users.isEmpty()) return users.get(0);
+        else return null;
     }
 
     public void addEventToUser(final EventBox event, final DataStatus dataStatus)
@@ -161,13 +187,4 @@ public class FirebaseDatabaseHelper {
                 });
     }
 
-
-
-    public List<EventBox> getEvents() {
-        return events;
-    }
-
-    public List<UserBox> getUsers() {
-        return users;
-    }
 }
