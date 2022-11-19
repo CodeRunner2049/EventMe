@@ -65,17 +65,10 @@ public class FilterByPriceTest {
             e.printStackTrace();
         }
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.Cost), withText("0"),
-                        withParent(withParent(withId(R.id.mRecyclerView))),
-                        isDisplayed()));
-        textView.check(matches(withText("0")));
+        ViewInteraction textView = onView(withId(R.id.Cost)).check(matches(withText("0")));
+        ViewInteraction textView1 = onView(withId(R.id.Cost)).check(matches(withText("500")));
 
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.Cost), withText("500"),
-                        withParent(withParent(withId(R.id.mRecyclerView))),
-                        isDisplayed()));
-        textView2.check(matches(withText("500")));
+
     }
 
     private static Matcher<View> childAtPosition(
