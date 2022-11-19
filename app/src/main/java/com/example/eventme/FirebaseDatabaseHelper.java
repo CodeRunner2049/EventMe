@@ -134,7 +134,7 @@ public class FirebaseDatabaseHelper {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        dataStatus.DataIsDeleted();
+                        dataStatus.DataIsDeleted(); 
                     }
                 });
     }

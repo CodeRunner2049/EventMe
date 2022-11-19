@@ -54,6 +54,7 @@ public class ExplorePage extends Fragment {
     String userInput;
     Switch searchType;
     boolean type_or_search = false;
+    //MapPageHelper currentLocation = new MapPageHelper();
 
 
     private static final String[] paths = {"item 1", "item 2", "item 3"};
@@ -197,6 +198,8 @@ public class ExplorePage extends Fragment {
                     @Override
                     public void onClick(View view) {
 
+//                        currentLocation.updateLocationUI();
+//                        LatLng latlng = currentLocation.getDeviceLocation();
                         intent.putExtra("dist_filter",true);
                         startActivity(intent);
 
