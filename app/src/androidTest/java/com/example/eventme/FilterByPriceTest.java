@@ -1,4 +1,4 @@
-package com.examplet a.eventme;
+package com.example.eventme;
 
 
 import static androidx.test.espresso.Espresso.onView;
