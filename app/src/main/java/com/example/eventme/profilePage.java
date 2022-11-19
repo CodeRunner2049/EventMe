@@ -163,26 +163,15 @@ public class profilePage extends Fragment {
             currentUser = mAuth.getCurrentUser();
             String uid = currentUser.getUid();
 
-            mReferenceUsers.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    //possible issue with datasnap, we might need to fix later
-                    if (getContext() != null)
-                    {
-                        DataSnapshot keyNode = snapshot.child(uid);
-                        UserBox user = keyNode.getValue(UserBox.class);
-                        nameEditText.setText(user.getName());
+            UserBox user = fb.readUserDetails();
+            if (user != null)
+            {
+                nameEditText.setText(user.getName());
 //                    avatar.setImageURI(Uri.parse(user.getImage_url()));
-                        Glide.with(getContext()).load(user.getImage_url()).into(avatar);
-                        birthday.setText(user.getBirthday());
-                    }
-                }
+                Glide.with(getContext()).load(user.getImage_url()).into(avatar);
+                birthday.setText(user.getBirthday());
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+            }
 
             Toast.makeText(getContext(), "User is already logged in!", Toast.LENGTH_LONG).show();
             ActivityResultLauncher<Intent> imageActivity = registerForActivityResult(

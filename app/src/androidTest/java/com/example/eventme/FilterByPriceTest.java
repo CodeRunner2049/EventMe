@@ -1,4 +1,4 @@
-package com.example.eventme;
+package com.examplet a.eventme;
 
 
 import static androidx.test.espresso.Espresso.onView;
@@ -35,12 +35,12 @@ public class FilterByPriceTest {
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void mainActivityTest() {
+    public void FilterByPriceTest() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(50000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -67,15 +67,10 @@ public class FilterByPriceTest {
 
         ViewInteraction textView = onView(
                 allOf(withId(R.id.Cost), withText("0"),
-                        withParent(withParent(withId(R.id.mRecyclerView))),
+                        withParent(allOf(withId(R.id.recycle_item),
+                                withParent(withId(R.id.mRecyclerView)))),
                         isDisplayed()));
         textView.check(matches(withText("0")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.Cost), withText("500"),
-                        withParent(withParent(withId(R.id.mRecyclerView))),
-                        isDisplayed()));
-        textView2.check(matches(withText("500")));
     }
 
     private static Matcher<View> childAtPosition(

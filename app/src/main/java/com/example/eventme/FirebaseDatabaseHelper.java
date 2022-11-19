@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -113,29 +114,28 @@ public class FirebaseDatabaseHelper {
                 });
     }
 
-//    public UserBox readUserDetails(String userId, final DataStatus dataStatus)
-//    {
-//        currentUser = mAuth.getCurrentUser();
-//        String userID = currentUser.getUid();
-////        mReferenceUsers.child(uid).child("events").addValueEventListener(new ValueEventListener() {
-////            @Override
-////            public void onDataChange(@NonNull DataSnapshot snapshot) {
-////                events.clear();
-////                List<String> keys = new ArrayList<>();
-////                //possible issue with datasnap, we might need to fix later
-////                for (DataSnapshot keyNode : snapshot.getChildren()) {
-////                    keys.add(keyNode.getKey());
-////                    EventBox event = keyNode.getValue(EventBox.class);
-////                    events.add(event);
-////                }
-////                dataStatus.DataIsLoaded(events, keys);
-////            }
-////
-////            @Override
-////            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//    }
+    public UserBox readUserDetails()
+    {
+        ArrayList<UserBox> users = new ArrayList<>();
+        currentUser = mAuth.getCurrentUser();
+        String uid = currentUser.getUid();
+        mReferenceUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //possible issue with datasnap, we might need to fix later
+                DataSnapshot keyNode = snapshot.child(uid);
+                users.add(keyNode.getValue(UserBox.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        if (!users.isEmpty()) return users.get(0);
+        else return null;
+    }
 
     public void addEventToUser(final EventBox event, final DataStatus dataStatus)
     {
