@@ -52,6 +52,8 @@ public class RegisterUserTest {
             e.printStackTrace();
         }
 
+        FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
+
         ViewInteraction bottomNavigationItemView = onView(
                 allOf(withId(R.id.profilePage), withContentDescription("Profile"),
                         childAtPosition(
@@ -162,7 +164,6 @@ public class RegisterUserTest {
                         isDisplayed()));
         textView2.check(matches(withText("EventMe - Explore")));
 
-        FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
         fb.deleteUser(new FirebaseDatabaseHelper.DataStatus() {
             @Override
             public void DataIsLoaded(List<EventBox> events, List<String> keys) {
