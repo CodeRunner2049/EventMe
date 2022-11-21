@@ -3,12 +3,14 @@
 
 package com.example.eventme;
 
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,13 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FirebaseDatabaseHelper {
-    private FirebaseAuth mAuth;
+    private final FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mReferenceEvents;
-    private DatabaseReference mReferenceUsers;
-    private List<EventBox> events = new ArrayList<>();
-    private List<UserBox> users = new ArrayList<>();
+    private final FirebaseDatabase mDatabase;
+    private final DatabaseReference mReferenceEvents;
+    private final DatabaseReference mReferenceUsers;
+    private final List<EventBox> events = new ArrayList<>();
+    private final List<UserBox> users = new ArrayList<>();
 
     // data 3
     public interface DataStatus
@@ -156,6 +158,11 @@ public class FirebaseDatabaseHelper {
                         dataStatus.DataIsDeleted(); 
                     }
                 });
+    }
+
+    public void logoutUser()
+    {
+        mAuth.signOut();
     }
 
     public void updateUser(String key, UserBox user, final DataStatus dataStatus)
