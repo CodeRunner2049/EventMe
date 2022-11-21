@@ -169,8 +169,10 @@ public class FirebaseDatabaseHelper {
                 });
     }
 
-    public void deleteUser(String key, final DataStatus dataStatus)
+    public void deleteUser(final DataStatus dataStatus)
     {
+        currentUser = mAuth.getCurrentUser();
+        String key = currentUser.getUid();
         mReferenceUsers.child(key).setValue(null)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
