@@ -41,8 +41,6 @@ public class FirebaseDatabaseHelper {
         void DataIsDeleted();
     }
 
-
-
     public FirebaseDatabaseHelper() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -73,9 +71,6 @@ public class FirebaseDatabaseHelper {
             }
         });
     }
-
-
-
 
     public void readUserEvents(final DataStatus dataStatus) {
         currentUser = mAuth.getCurrentUser();
@@ -114,9 +109,8 @@ public class FirebaseDatabaseHelper {
                 });
     }
 
-    public UserBox readUserDetails()
+    public void readUserDetails()
     {
-        ArrayList<UserBox> users = new ArrayList<>();
         currentUser = mAuth.getCurrentUser();
         String uid = currentUser.getUid();
         mReferenceUsers.addValueEventListener(new ValueEventListener() {
@@ -132,10 +126,9 @@ public class FirebaseDatabaseHelper {
 
             }
         });
-
-        if (!users.isEmpty()) return users.get(0);
-        else return null;
     }
+
+
 
     public void addEventToUser(final EventBox event, final DataStatus dataStatus)
     {
@@ -185,6 +178,10 @@ public class FirebaseDatabaseHelper {
                         dataStatus.DataIsDeleted();
                     }
                 });
+    }
+
+    public List<UserBox> getUsers() {
+        return users;
     }
 
 }
