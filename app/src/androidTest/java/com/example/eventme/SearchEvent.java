@@ -3,12 +3,18 @@ package com.example.eventme;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,33 +34,55 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FilterByPriceTest {
+public class SearchEvent {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void FilterByPriceTest() {
+    public void searchEvent() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(5000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        ViewInteraction materialButton = onView(
-                allOf(withId(R.id.cost), withText("Filter by Price"),
+        ViewInteraction appCompatImageView = onView(
+                allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Search"),
                         childAtPosition(
-                                allOf(withId(R.id.frameLayout),
+                                allOf(withClassName(is("android.widget.LinearLayout")),
                                         childAtPosition(
-                                                withId(R.id.nav_fragment),
+                                                withId(R.id.searchView),
                                                 0)),
-                                2),
+                                1),
                         isDisplayed()));
-        materialButton.perform(click());
+        appCompatImageView.perform(click());
+
+        ViewInteraction searchAutoComplete = onView(
+                allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")),
+                        childAtPosition(
+                                allOf(withClassName(is("android.widget.LinearLayout")),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                1)),
+                                0),
+                        isDisplayed()));
+        searchAutoComplete.perform(replaceText("head"), closeSoftKeyboard());
+
+        ViewInteraction searchAutoComplete2 = onView(
+                allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), withText("head"),
+                        childAtPosition(
+                                allOf(withClassName(is("android.widget.LinearLayout")),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                1)),
+                                0),
+                        isDisplayed()));
+        searchAutoComplete2.perform(pressImeActionButton());
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -66,11 +94,11 @@ public class FilterByPriceTest {
         }
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.Cost), withText("0"),
+                allOf(withId(R.id.Name), withText("Head In the Clouds"),
                         withParent(allOf(withId(R.id.recycle_item),
                                 withParent(withId(R.id.mRecyclerView)))),
                         isDisplayed()));
-        textView.check(matches(withText("0")));
+        textView.check(matches(withText("Head In the Clouds")));
     }
 
     private static Matcher<View> childAtPosition(

@@ -28,14 +28,14 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FilterByPriceTest {
+public class FilterByName {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void FilterByPriceTest() {
+    public void filterByName() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -46,13 +46,13 @@ public class FilterByPriceTest {
         }
 
         ViewInteraction materialButton = onView(
-                allOf(withId(R.id.cost), withText("Filter by Price"),
+                allOf(withId(R.id.name), withText("Filter by Name"),
                         childAtPosition(
                                 allOf(withId(R.id.frameLayout),
                                         childAtPosition(
                                                 withId(R.id.nav_fragment),
                                                 0)),
-                                2),
+                                3),
                         isDisplayed()));
         materialButton.perform(click());
 
@@ -66,11 +66,11 @@ public class FilterByPriceTest {
         }
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.Cost), withText("0"),
+                allOf(withId(R.id.Name), withText("21 Savage"),
                         withParent(allOf(withId(R.id.recycle_item),
                                 withParent(withId(R.id.mRecyclerView)))),
                         isDisplayed()));
-        textView.check(matches(withText("0")));
+        textView.check(matches(withText("21 Savage")));
     }
 
     private static Matcher<View> childAtPosition(
