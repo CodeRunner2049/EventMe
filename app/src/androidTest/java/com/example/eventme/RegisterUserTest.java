@@ -53,6 +53,7 @@ public class RegisterUserTest {
         }
 
         FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
+        fb.logoutUser();
 
         ViewInteraction bottomNavigationItemView = onView(
                 allOf(withId(R.id.profilePage), withContentDescription("Profile"),
@@ -106,7 +107,7 @@ public class RegisterUserTest {
                                         0),
                                 3),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("sriharaa@yahoo.com"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("sriharaaaa@yahoo.com"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.idEdtPassword),
@@ -116,7 +117,7 @@ public class RegisterUserTest {
                                         0),
                                 4),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("sriharshaaaa"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("sriharshaaaaaa"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.idEdtFirstName),
@@ -126,7 +127,7 @@ public class RegisterUserTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("sridaa23"), closeSoftKeyboard());
+        appCompatEditText3.perform(replaceText("sridaaaa23"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText4 = onView(
                 allOf(withId(R.id.idEdtEmail),
@@ -136,7 +137,7 @@ public class RegisterUserTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText4.perform(replaceText("sriharaa@yahoo.com"), closeSoftKeyboard());
+        appCompatEditText4.perform(replaceText("sriharaaaa@yahoo.com"), closeSoftKeyboard());
 
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.idBtnRegister), withText("Register Account"),
