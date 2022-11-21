@@ -288,7 +288,7 @@ public class profilePage extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(getContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
-                    mAuth.signOut();
+                    fb.logoutUser();
                     nameEditText.setText("");
                     birthday.setText("");
                     avatar.setImageURI(null);

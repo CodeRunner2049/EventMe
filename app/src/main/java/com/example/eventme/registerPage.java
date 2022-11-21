@@ -85,7 +85,7 @@ public class registerPage extends AppCompatActivity {
                                 UserBox user = new UserBox(name, email, userName, password);
                                 fb.addUserDetails(user, new FirebaseDatabaseHelper.DataStatus() {
                                     @Override
-                                    public void DataIsLoaded(List<EventBox> events, List<String> keys) {                                    }
+                                    public void DataIsLoaded(List<EventBox> events, List<String> keys) {}
                                     @Override
                                     public void DataIsInserted() {}
 
