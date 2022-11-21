@@ -15,6 +15,7 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.assertion.ViewAssertions.*;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
@@ -35,14 +36,14 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FilterByDateTest {
+public class ClickEventOnExplore {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void filterByDateTest() {
+    public void clickEventOnExplore() {
          // Added a sleep statement to match the app's execution delay.
  // The recommended way to handle such scenarios is to use Espresso idling resources:
   // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -53,13 +54,13 @@ try {
  }
         
         ViewInteraction materialButton = onView(
-allOf(withId(R.id.date), withText("Filter By Date"),
+allOf(withId(R.id.name), withText("Filter by Name"),
 childAtPosition(
 allOf(withId(R.id.frameLayout),
 childAtPosition(
 withId(R.id.nav_fragment),
 0)),
-4),
+3),
 isDisplayed()));
         materialButton.perform(click());
         
@@ -72,12 +73,27 @@ try {
  e.printStackTrace();
  }
         
-        ViewInteraction textView = onView(
-allOf(withId(R.id.Date), withText("2022-012-2 15:00:00"),
-withParent(allOf(withId(R.id.recycle_item),
-withParent(withId(R.id.mRecyclerView)))),
+        ViewInteraction recyclerView = onView(
+allOf(withId(R.id.mRecyclerView),
+childAtPosition(
+withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+0)));
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
+        
+         // Added a sleep statement to match the app's execution delay.
+ // The recommended way to handle such scenarios is to use Espresso idling resources:
+  // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+try {
+ Thread.sleep(700);
+ } catch (InterruptedException e) {
+ e.printStackTrace();
+ }
+        
+        ViewInteraction viewGroup = onView(
+allOf(withParent(allOf(withId(android.R.id.content),
+withParent(withId(androidx.appcompat.R.id.decor_content_parent)))),
 isDisplayed()));
-        textView.check(matches(withText("2022-012-2 15:00:00")));
+        viewGroup.check(matches(isDisplayed()));
         }
     
     private static Matcher<View> childAtPosition(

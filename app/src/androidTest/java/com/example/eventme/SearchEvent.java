@@ -35,14 +35,14 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FilterByDateTest {
+public class SearchEvent {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void filterByDateTest() {
+    public void searchEvent() {
          // Added a sleep statement to match the app's execution delay.
  // The recommended way to handle such scenarios is to use Espresso idling resources:
   // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -52,16 +52,38 @@ try {
  e.printStackTrace();
  }
         
-        ViewInteraction materialButton = onView(
-allOf(withId(R.id.date), withText("Filter By Date"),
+        ViewInteraction appCompatImageView = onView(
+allOf(withClassName(is("androidx.appcompat.widget.AppCompatImageView")), withContentDescription("Search"),
 childAtPosition(
-allOf(withId(R.id.frameLayout),
+allOf(withClassName(is("android.widget.LinearLayout")),
 childAtPosition(
-withId(R.id.nav_fragment),
+withId(R.id.searchView),
 0)),
-4),
+1),
 isDisplayed()));
-        materialButton.perform(click());
+        appCompatImageView.perform(click());
+        
+        ViewInteraction searchAutoComplete = onView(
+allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")),
+childAtPosition(
+allOf(withClassName(is("android.widget.LinearLayout")),
+childAtPosition(
+withClassName(is("android.widget.LinearLayout")),
+1)),
+0),
+isDisplayed()));
+        searchAutoComplete.perform(replaceText("head"), closeSoftKeyboard());
+        
+        ViewInteraction searchAutoComplete2 = onView(
+allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), withText("head"),
+childAtPosition(
+allOf(withClassName(is("android.widget.LinearLayout")),
+childAtPosition(
+withClassName(is("android.widget.LinearLayout")),
+1)),
+0),
+isDisplayed()));
+        searchAutoComplete2.perform(pressImeActionButton());
         
          // Added a sleep statement to match the app's execution delay.
  // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -73,11 +95,11 @@ try {
  }
         
         ViewInteraction textView = onView(
-allOf(withId(R.id.Date), withText("2022-012-2 15:00:00"),
+allOf(withId(R.id.Name), withText("Head In the Clouds"),
 withParent(allOf(withId(R.id.recycle_item),
 withParent(withId(R.id.mRecyclerView)))),
 isDisplayed()));
-        textView.check(matches(withText("2022-012-2 15:00:00")));
+        textView.check(matches(withText("Head In the Clouds")));
         }
     
     private static Matcher<View> childAtPosition(

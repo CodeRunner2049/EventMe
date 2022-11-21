@@ -35,14 +35,14 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FilterByDateTest {
+public class FilterByName {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void filterByDateTest() {
+    public void filterByName() {
          // Added a sleep statement to match the app's execution delay.
  // The recommended way to handle such scenarios is to use Espresso idling resources:
   // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -53,13 +53,13 @@ try {
  }
         
         ViewInteraction materialButton = onView(
-allOf(withId(R.id.date), withText("Filter By Date"),
+allOf(withId(R.id.name), withText("Filter by Name"),
 childAtPosition(
 allOf(withId(R.id.frameLayout),
 childAtPosition(
 withId(R.id.nav_fragment),
 0)),
-4),
+3),
 isDisplayed()));
         materialButton.perform(click());
         
@@ -73,11 +73,11 @@ try {
  }
         
         ViewInteraction textView = onView(
-allOf(withId(R.id.Date), withText("2022-012-2 15:00:00"),
+allOf(withId(R.id.Name), withText("21 Savage"),
 withParent(allOf(withId(R.id.recycle_item),
 withParent(withId(R.id.mRecyclerView)))),
 isDisplayed()));
-        textView.check(matches(withText("2022-012-2 15:00:00")));
+        textView.check(matches(withText("21 Savage")));
         }
     
     private static Matcher<View> childAtPosition(

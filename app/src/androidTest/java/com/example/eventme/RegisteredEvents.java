@@ -35,14 +35,14 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FilterByDateTest {
+public class RegisteredEvents {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void filterByDateTest() {
+    public void registeredEvents() {
          // Added a sleep statement to match the app's execution delay.
  // The recommended way to handle such scenarios is to use Espresso idling resources:
   // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -52,16 +52,84 @@ try {
  e.printStackTrace();
  }
         
-        ViewInteraction materialButton = onView(
-allOf(withId(R.id.date), withText("Filter By Date"),
+        ViewInteraction bottomNavigationItemView = onView(
+allOf(withId(R.id.profilePage), withContentDescription("Profile"),
 childAtPosition(
-allOf(withId(R.id.frameLayout),
+childAtPosition(
+withId(R.id.bottom_navigatin_view),
+0),
+2),
+isDisplayed()));
+        bottomNavigationItemView.perform(click());
+        
+         // Added a sleep statement to match the app's execution delay.
+ // The recommended way to handle such scenarios is to use Espresso idling resources:
+  // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+try {
+ Thread.sleep(700);
+ } catch (InterruptedException e) {
+ e.printStackTrace();
+ }
+        
+        ViewInteraction appCompatEditText = onView(
+allOf(withId(R.id.idEdtUserName),
+childAtPosition(
+childAtPosition(
+withId(android.R.id.content),
+0),
+2),
+isDisplayed()));
+        appCompatEditText.perform(replaceText("james@gmail.com"), closeSoftKeyboard());
+        
+        ViewInteraction appCompatEditText2 = onView(
+allOf(withId(R.id.idEdtPassword),
+childAtPosition(
+childAtPosition(
+withId(android.R.id.content),
+0),
+3),
+isDisplayed()));
+        appCompatEditText2.perform(replaceText("abc123"), closeSoftKeyboard());
+        
+        ViewInteraction materialButton = onView(
+allOf(withId(R.id.idBtnLogin), withText("Login"),
+childAtPosition(
+childAtPosition(
+withId(android.R.id.content),
+0),
+1),
+isDisplayed()));
+        materialButton.perform(click());
+        
+         // Added a sleep statement to match the app's execution delay.
+ // The recommended way to handle such scenarios is to use Espresso idling resources:
+  // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+try {
+ Thread.sleep(7000);
+ } catch (InterruptedException e) {
+ e.printStackTrace();
+ }
+        
+        ViewInteraction bottomNavigationItemView2 = onView(
+allOf(withId(R.id.profilePage), withContentDescription("Profile"),
+childAtPosition(
+childAtPosition(
+withId(R.id.bottom_navigatin_view),
+0),
+2),
+isDisplayed()));
+        bottomNavigationItemView2.perform(click());
+        
+        ViewInteraction materialButton2 = onView(
+allOf(withId(R.id.registeredEvents), withText("See Registered Events"),
+childAtPosition(
+allOf(withId(R.id.relativeLayout),
 childAtPosition(
 withId(R.id.nav_fragment),
 0)),
 4),
 isDisplayed()));
-        materialButton.perform(click());
+        materialButton2.perform(click());
         
          // Added a sleep statement to match the app's execution delay.
  // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -73,11 +141,11 @@ try {
  }
         
         ViewInteraction textView = onView(
-allOf(withId(R.id.Date), withText("2022-012-2 15:00:00"),
+allOf(withId(R.id.Name), withText("Santa Monica Beach Cleanup"),
 withParent(allOf(withId(R.id.recycle_item),
 withParent(withId(R.id.mRecyclerView)))),
 isDisplayed()));
-        textView.check(matches(withText("2022-012-2 15:00:00")));
+        textView.check(matches(withText("Santa Monica Beach Cleanup")));
         }
     
     private static Matcher<View> childAtPosition(
