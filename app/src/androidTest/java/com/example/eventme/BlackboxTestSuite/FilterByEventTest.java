@@ -1,4 +1,4 @@
-package com.example.eventme;
+package com.example.eventme.BlackboxTestSuite;
 
 
 import static androidx.test.espresso.Espresso.onView;
@@ -21,12 +21,17 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
+import com.example.eventme.MainActivity;
+import com.example.eventme.R;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
@@ -52,7 +57,7 @@ public class FilterByEventTest {
         }
 
         ViewInteraction switch_ = onView(
-                allOf(withId(R.id.searchType), withText("Name/Type"),
+                Matchers.allOf(ViewMatchers.withId(R.id.searchType), withText("Name/Type"),
                         childAtPosition(
                                 allOf(withId(R.id.frameLayout),
                                         childAtPosition(
