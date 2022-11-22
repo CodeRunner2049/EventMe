@@ -221,35 +221,13 @@ public class profilePage extends Fragment {
                     }
                     if (birthday.getText() != null)
                     {
-                        mReferenceUsers.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String uid = currentUser.getUid();
-                                String birthdayText = birthday.getText().toString();
-                                mReferenceUsers.child(uid).child("birthday").setValue(birthdayText);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                        String birthdayText = birthday.getText().toString();
+                        fb.updateUserBirthday(birthdayText);
                     }
                     if (nameEditText.getText() != null)
                     {
-                        mReferenceUsers.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String uid = currentUser.getUid();
-                                String nameText = nameEditText.getText().toString();
-                                mReferenceUsers.child(uid).child("name").setValue(nameText);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                        String nameText = nameEditText.getText().toString();
+                        fb.updateUserName(nameText);
                     }
                 }
             });
@@ -321,9 +299,7 @@ public class profilePage extends Fragment {
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
+                            public void onCancelled(@NonNull DatabaseError error) {}
                         });
                         Toast.makeText(getContext(), "Upload Successful", Toast.LENGTH_SHORT).show();
                     }

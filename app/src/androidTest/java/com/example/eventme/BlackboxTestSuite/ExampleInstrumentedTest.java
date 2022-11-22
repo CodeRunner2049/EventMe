@@ -1,4 +1,4 @@
-package com.example.eventme;
+package com.example.eventme.BlackboxTestSuite;
 
 import android.content.Context;
 

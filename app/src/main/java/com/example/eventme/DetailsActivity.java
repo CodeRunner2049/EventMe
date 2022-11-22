@@ -89,7 +89,7 @@ public class DetailsActivity extends AppCompatActivity {
                         @Override
                         public void DataIsLoaded(List<EventBox> events, List<String> keys) {
                             userEvents = events;
-                            if (!containsEvent(temp.getId()))
+                            if (!fb.containsEvent(temp.getId()))
                             {
                                 registerButton.setText("Register for Event");
                                 registerForEvent(temp);
@@ -148,7 +148,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 currentUser = mAuth.getCurrentUser();
-                if (containsDate(event.getDate()))
+                if (fb.containsDate(event.getDate()))
                 {
                     Toast.makeText(DetailsActivity.this, "Event Conflict! Are you sure you want to register?", Toast.LENGTH_LONG).show();
                     registerButton.setText("OK!");
@@ -196,7 +196,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 currentUser = mAuth.getCurrentUser();
-                fb.removeEventFromUser(event, new FirebaseDatabaseHelper.DataStatus() {
+                fb.removeEventFromUser(event.getId(), new FirebaseDatabaseHelper.DataStatus() {
                     @Override
                     public void DataIsLoaded(List<EventBox> events, List<String> keys) {
                     }
@@ -226,27 +226,5 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
-    public boolean containsEvent(String eventID)
-    {
-        for (EventBox event : userEvents)
-        {
-            if (event.getId().equals(eventID))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    public boolean containsDate(String datetime)
-    {
-        for (EventBox event : userEvents)
-        {
-            if (event.getDate().equals(datetime))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 }

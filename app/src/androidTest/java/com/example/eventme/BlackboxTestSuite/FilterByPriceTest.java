@@ -1,4 +1,4 @@
-package com.example.eventme;
+package com.example.eventme.BlackboxTestSuite;
 
 
 import static androidx.test.espresso.Espresso.onView;
@@ -15,12 +15,17 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
+import com.example.eventme.MainActivity;
+import com.example.eventme.R;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,14 +33,14 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FilterByDateTest {
+public class FilterByPriceTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void filterByDateTest() {
+    public void FilterByPriceTest() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -46,13 +51,13 @@ public class FilterByDateTest {
         }
 
         ViewInteraction materialButton = onView(
-                allOf(withId(R.id.date), withText("Filter By Date"),
+                Matchers.allOf(ViewMatchers.withId(R.id.cost), withText("Filter by Price"),
                         childAtPosition(
                                 allOf(withId(R.id.frameLayout),
                                         childAtPosition(
                                                 withId(R.id.nav_fragment),
                                                 0)),
-                                4),
+                                2),
                         isDisplayed()));
         materialButton.perform(click());
 
@@ -66,11 +71,11 @@ public class FilterByDateTest {
         }
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.Date), withText("2022-012-2 15:00:00"),
+                allOf(withId(R.id.Cost), withText("0"),
                         withParent(allOf(withId(R.id.recycle_item),
                                 withParent(withId(R.id.mRecyclerView)))),
                         isDisplayed()));
-        textView.check(matches(withText("2022-012-2 15:00:00")));
+        textView.check(matches(withText("0")));
     }
 
     private static Matcher<View> childAtPosition(

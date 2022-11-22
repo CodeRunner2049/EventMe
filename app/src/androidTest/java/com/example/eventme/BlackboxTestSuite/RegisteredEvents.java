@@ -1,4 +1,4 @@
-package com.example.eventme;
+package com.example.eventme.BlackboxTestSuite;
 
 
 import static androidx.test.espresso.Espresso.onView;
@@ -18,12 +18,17 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
+import com.example.eventme.MainActivity;
+import com.example.eventme.R;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,25 +36,25 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class LoginTest {
+public class RegisteredEvents {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void loginTest() {
+    public void registeredEvents() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(5000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         ViewInteraction bottomNavigationItemView = onView(
-                allOf(withId(R.id.profilePage), withContentDescription("Profile"),
+                Matchers.allOf(ViewMatchers.withId(R.id.profilePage), withContentDescription("Profile"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.bottom_navigatin_view),
@@ -116,12 +121,32 @@ public class LoginTest {
                         isDisplayed()));
         bottomNavigationItemView2.perform(click());
 
-        ViewInteraction button = onView(
-                allOf(withId(R.id.imageUpload), withText("UPDATE PROFILE"),
-                        withParent(allOf(withId(R.id.relativeLayout),
-                                withParent(withId(R.id.nav_fragment)))),
+        ViewInteraction materialButton2 = onView(
+                allOf(withId(R.id.registeredEvents), withText("See Registered Events"),
+                        childAtPosition(
+                                allOf(withId(R.id.relativeLayout),
+                                        childAtPosition(
+                                                withId(R.id.nav_fragment),
+                                                0)),
+                                4),
                         isDisplayed()));
-        button.check(matches(isDisplayed()));
+        materialButton2.perform(click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.Name), withText("Santa Monica Beach Cleanup"),
+                        withParent(allOf(withId(R.id.recycle_item),
+                                withParent(withId(R.id.mRecyclerView)))),
+                        isDisplayed()));
+        textView.check(matches(withText("Santa Monica Beach Cleanup")));
     }
 
     private static Matcher<View> childAtPosition(

@@ -102,7 +102,7 @@ public class registerPage extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(registerPage.this, "Register failed!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(registerPage.this, "Register failed! " + e.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
 
