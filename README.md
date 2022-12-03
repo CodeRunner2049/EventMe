@@ -15,6 +15,7 @@ EventMe version 1.0
 - Added Drop Down Menu in Explore
 - Added Search by Event Type in Drop Down Menu in Explore
 - Added Parking details to Registration Page
+- Changed Landing page to Login/Register
 
 
 
