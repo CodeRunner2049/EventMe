@@ -14,6 +14,7 @@ EventMe version 1.0
 - Implemented Search by Location and Sponsoring Organization in Explore
 - Added Drop Down Menu in Explore
 - Added Search by Event Type in Drop Down Menu in Explore
+- Added Parking details to Registration Page
 
 
 
