@@ -8,6 +8,16 @@ Authors: Sri Doupaty, Mourad Zeynalov, James Fan
 Device: Pixel 2 API 24 Android 7.0 Google APIs | arm 64
 EventMe version 1.0
 
+
+[UPDATED CHANGES SINCE PROJECT 2.4]
+- Added Location and Sponsoring Organization in Event Box
+- Implemented Search by Location and Sponsoring Organization in Explore
+- Added Drop Down Menu in Explore
+- Added Search by Event Type in Drop Down Menu in Explore
+
+
+
+
 How to Run Android Application: 
 1. Unzip Zip file that contains project
 2. Single/Double click to open Android Studio 
@@ -50,6 +60,8 @@ Misc.
 Dining
 Sports
 Party
+
+
 
 
 
