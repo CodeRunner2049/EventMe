@@ -30,7 +30,7 @@ public class resultsPage extends AppCompatActivity {
     Boolean dist_filter;
     Bundle dist_bundle;
 
-    Boolean search_type;
+    String search_type;
     Bundle search_bundle;
 
     String userInput;
@@ -64,7 +64,7 @@ public class resultsPage extends AppCompatActivity {
         dist_filter = date_bundle.getBoolean("dist_filter");
 
         search_bundle = intent.getExtras();
-        search_type = search_bundle.getBoolean("searchType");
+        search_type = search_bundle.getString("searchType");
 
         stringInput = getIntent().getExtras();
         userInput = stringInput.getString("usersinput");
@@ -100,15 +100,34 @@ public class resultsPage extends AppCompatActivity {
         {
             List<EventBox> newEvents = new ArrayList<>();
 
-            if (!search_type)
+            Toast.makeText(getApplicationContext(), "search type is " + search_type, Toast.LENGTH_SHORT).show();
+
+            if (search_type.equals("name"))
             {
                 newEvents = fb.searchEventsByName(sorted_events, userInput);
-
             }
-            else
+            else if (search_type.equals( "event_type"))
             {
                 for(EventBox e : sorted_events){
                     if(e.getName() != null && e.getEvent_Type().toLowerCase().contains(userInput.toLowerCase()))
+                    {
+                        newEvents.add(e);
+                    }
+                }
+            }
+            else if (search_type.equals("location"))
+            {
+                for(EventBox e : sorted_events){
+                    if(e.getName() != null && e.getAddress().toLowerCase().contains(userInput.toLowerCase()))
+                    {
+                        newEvents.add(e);
+                    }
+                }
+            }
+            else if (search_type.equals("sponsor"))
+            {
+                for(EventBox e : sorted_events){
+                    if(e.getName() != null && e.getSponsor().toLowerCase().contains(userInput.toLowerCase()))
                     {
                         newEvents.add(e);
                     }

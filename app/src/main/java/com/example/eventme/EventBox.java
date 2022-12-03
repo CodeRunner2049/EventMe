@@ -10,22 +10,24 @@ public class EventBox implements Serializable {
 
     public EventBox() {}
 
-    public EventBox(String name, String ID, Integer cost, String event_Type, String sponsor, String event_Description, Integer parking, Integer number_Registration, String date, Double latitude, Double longitude, String image_url) {
-        Name = name;
+    public EventBox(String name, String address, String ID, Integer cost, String event_Type, String sponsor, String event_Description, Integer parking, Integer number_Registration, String date, Double latitude, Double longitude, String image_url) {
+        this.Name = name;
+        this.Address = address;
         this.ID = ID;
-        Cost = cost;
-        Event_Type = event_Type;
-        Sponsor = sponsor;
-        Event_Description = event_Description;
-        Parking = parking;
-        Number_Registration = number_Registration;
-        Date = date;
+        this.Cost = cost;
+        this.Event_Type = event_Type;
+        this.Sponsor = sponsor;
+        this.Event_Description = event_Description;
+        this.Parking = parking;
+        this.Number_Registration = number_Registration;
+        this.Date = date;
         this.latitude = latitude;
         this.longitude = longitude;
         this.image_url = image_url;
     }
 
     private String Name;
+    private String Address;
     private String ID;
     private Integer Cost;
     private String Event_Type;
@@ -134,7 +136,7 @@ public class EventBox implements Serializable {
         this.image_url = image_url;
     }
 
+    public String getAddress() { return Address; }
 
-
-
+    public void setAddress(String address) { Address = address; }
 }

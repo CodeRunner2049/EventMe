@@ -15,6 +15,7 @@ import android.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -52,8 +53,9 @@ public class ExplorePage extends Fragment {
     Button nameButton;
     Button dateButton;
     String userInput;
-    Switch searchType;
-    boolean type_or_search = false;
+    Spinner typeOfSearch;
+    String[] search_types = {"name", "event_type", "location", "sponsor"};
+    String search_type;
     //MapPageHelper currentLocation = new MapPageHelper();
 
 
@@ -121,10 +123,13 @@ public class ExplorePage extends Fragment {
         listView.setAdapter(arrayAdapter);
 
         priceButton = rootview.findViewById(R.id.cost);
-        searchType = rootview.findViewById(R.id.searchType);
         nameButton = rootview.findViewById(R.id.name);
         dateButton = rootview.findViewById(R.id.date);
         distButton = rootview.findViewById(R.id.Destination);
+        typeOfSearch = rootview.findViewById(R.id.searchby);
+        ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(getContext(), R.array.languages, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        typeOfSearch.setAdapter(adapter);
 
 
         FirebaseDatabaseHelper fb = new FirebaseDatabaseHelper();
@@ -143,7 +148,7 @@ public class ExplorePage extends Fragment {
                     @Override
                     public boolean onQueryTextSubmit(String s) {
                         userInput = s;
-                        intent.putExtra("searchType",type_or_search);
+                        intent.putExtra("searchType", search_type);
                         intent.putExtra("usersinput", userInput);
                         startActivity(intent);
                         return false;
@@ -157,12 +162,17 @@ public class ExplorePage extends Fragment {
                     }
                 });
 
-                searchType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                      @Override
-                      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                          type_or_search = isChecked;
-                      }
-                  });
+                typeOfSearch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        search_type = search_types[i];
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        search_type = "name";
+                    }
+                });
 
                 priceButton.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -74,7 +74,8 @@ public class DetailsActivity extends AppCompatActivity {
 
                 String temporary = "";
                 if (temp != null) {
-                    temporary = temp.getName() + "\n" + temp.getDate() + "\n" + temp.getEvent_Type() + "\n" + temp.getEvent_Description() + "\n";
+                    temporary = temp.getName() + "\n" + temp.getDate() + "\n" + temp.getEvent_Type() + "\n"
+                            + temp.getEvent_Description() + "\n" + temp.getSponsor() + "\n" + temp.getAddress() + "\nParking: " + temp.getParking();
                 } else {
                     temporary = eventId;
                 }

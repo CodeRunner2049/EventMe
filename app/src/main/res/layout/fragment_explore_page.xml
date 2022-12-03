@@ -89,17 +89,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.502" />
 
-    <Switch
-        android:id="@+id/searchType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name/Type"
-        app:layout_constraintBottom_toTopOf="@+id/cost"
+    <Spinner
+        android:id="@+id/searchby"
+        android:layout_width="218dp"
+        android:layout_height="31dp"
+        android:spinnerMode="dropdown"
+        android:text="Search Type"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.594" />
 
 
     <!--        </androidx.cardview.widget.CardView>-->
